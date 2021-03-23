@@ -21,6 +21,9 @@
   },
   "homepage": "https://github.com/shah444/managr#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "child_process": "^1.0.2",
+    "cluster": "^0.7.7",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
   }
 }
