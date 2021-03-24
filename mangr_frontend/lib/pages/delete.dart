@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/pages/NormalContainer.dart';
 import 'package:myapp/pages/TextFieldContainer.dart';
 class Delete extends StatefulWidget {
   @override
@@ -21,6 +22,8 @@ class _DeleteState extends State<Delete> {
             TextFieldContainer(text: "Your Email", icon: Icon(Icons.person)),
             TextFieldContainer(text: "Your Password", icon: Icon(Icons.person)),
             TextFieldContainer(text: "Re-Enter Password", icon: Icon(Icons.person)),
+            SizedBox(height: 10.0),
+            NormalContainer(text: "Delete", route: "/login",)
           ],
         ),
       ),

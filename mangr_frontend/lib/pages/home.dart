@@ -26,6 +26,11 @@ class _HomeState extends State<Home> {
                 icon: Icon(Icons.add),
                 label: Text('Delete Account' , style: TextStyle( color : Colors.white, fontSize: 30),)
             ),
+            TextButton.icon(
+                onPressed: (){Navigator.pushNamed(context, '/createEvent');},
+                icon: Icon(Icons.add),
+                label: Text('Create Event' , style: TextStyle( color : Colors.white, fontSize: 30),)
+            ),
           ],
         ),
       ),

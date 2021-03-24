@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/NormalContainer.dart';
 import 'package:myapp/pages/TextFieldContainer.dart';
-class Add extends StatefulWidget {
+
+class createEvent extends StatefulWidget {
   @override
-  _AddState createState() => _AddState();
+  _createEventState createState() => _createEventState();
 }
 
-class _AddState extends State<Add> {
+class _createEventState extends State<createEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: Text("Create account" ,   style: TextStyle(color: Colors.white),),
+        title: Text("Create Event" ,   style: TextStyle(color: Colors.white),),
         backgroundColor: Colors.grey[850],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextFieldContainer(text: "First Name", icon: Icon(Icons.person)),
-            TextFieldContainer(text: "Last Name", icon: Icon(Icons.person)),
-            TextFieldContainer(text: "Your Email", icon: Icon(Icons.person)),
-            TextFieldContainer(text: "Your Password", icon: Icon(Icons.person)),
-            TextFieldContainer(text: "Re-Enter Password", icon: Icon(Icons.person)),
+            TextFieldContainer(text: "Room Name", icon: Icon(Icons.person)),
+            TextFieldContainer(text: "Guest Count", icon: Icon(Icons.person)),
+            TextFieldContainer(text: "Date", icon: Icon(Icons.person)),
+            TextFieldContainer(text: "Event Name", icon: Icon(Icons.person)),
             SizedBox(height: 10.0),
-            NormalContainer(text: "Create Account", route: '/home'),
+            NormalContainer(text: "Create Event", route: '/home'),
           ],
         ),
       ),
