@@ -33,4 +33,14 @@ if (cluster.isMaster) {
         handleGetEvent.send(data);
         handleGetEvent.on("message", message => res.send(message));
     });
+
+    app.route("/account")
+    .post((req, res) => {
+        const handleCreateAccount = fork("./func/create_account.js");
+        handleCreateAccount.send(req.body);
+        handleCreateAccount.on("message", message => res.send(message));
+    });
+
+
+
 }
