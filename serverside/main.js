@@ -5,6 +5,8 @@ const db = require("./func/db_connection.js");
 const {send, kill} = require('process');
 const app = express();
 const PORT = process.env.PORT || 23556;
+const bodyparser = require('body-parser');
+var jsonparser = bodyparser.json();
 
 if (cluster.isMaster) {
     console.log(`Master ${process.pid} is running`);
@@ -35,8 +37,10 @@ if (cluster.isMaster) {
     });
 
     app.route("/account")
-    .post((req, res) => {
+    .post(jsonparser, (req, res) => {
         const handleCreateAccount = fork("./func/create_account.js");
+        console.log(req.body);
+        console.log("Hello");
         handleCreateAccount.send(req.body);
         handleCreateAccount.on("message", message => res.send(message));
     });
