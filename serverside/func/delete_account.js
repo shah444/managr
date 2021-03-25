@@ -9,29 +9,26 @@ process.on("message", message => {
         console.log('Database connection established.');
         console.log(message);
         var data = {
-            email: message.email,
-            name: message.name,
+            email: message.id
         };
         console.log(data);
-        createAccount(data, connection).then((answer) => {
+        deleteAccount(data, connection).then((answer) => {
             connection.release();
-            process.send({"Success": "Account created"})
+            process.send({"Success": "Account deleted"})
             process.exit();
         }).catch((error)=>{
             console.log(error); 
-            process.send({"Error": "Account not created"})
+            process.send({"Error": "Account not deleted"})
             connection.release(); 
             process.exit();
         });
     });
 });
 
-const createAccount = (data, connection) => {
+const deleteAccount = (data, connection) => {
     var email = data.email;
-    var name = data.name;
-    var person_id = Math.floor(Math.random() * 10000);
-    var query1 = `SELECT * FROM users WHERE email = '${email}' OR person_id = '${person_id}';`
-    var query2 = `INSERT INTO users (person_id, name, email) VALUES ('${person_id}','${name}', '${email}' );`
+    var query1 = `SELECT * FROM users WHERE email = '${email}';`
+    var query2 = `DELETE FROM users WHERE email = '${email}';`
     return new Promise(async (resolve, reject) => {
         connection.query(query1, (err, result) => {
             if (err) {
@@ -39,9 +36,9 @@ const createAccount = (data, connection) => {
                 reject(err.message);
             }
             try {
-                if (result.length >= 1) {
-                    process.send({"Error": "The account already exists"});
-                    resolve("Account already exists");
+                if (result.length < 1) {
+                    process.send({"Error": "The account does not exist"});
+                    resolve("Account does not exist");
                 }
                 else {
                     connection.query(query2, (err, result) => {
@@ -49,7 +46,7 @@ const createAccount = (data, connection) => {
                             console.log(err);
                             reject(err.message);
                         }
-                        resolve("added");
+                        resolve("deleted");
                     });
                     }
                 }

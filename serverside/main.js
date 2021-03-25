@@ -40,8 +40,15 @@ if (cluster.isMaster) {
     .post(jsonparser, (req, res) => {
         const handleCreateAccount = fork("./func/create_account.js");
         console.log(req.body);
-        console.log("Hello");
         handleCreateAccount.send(req.body);
+        handleCreateAccount.on("message", message => res.send(message));
+    });
+
+    app.route("/account/:id")
+    .delete(jsonparser, (req, res) => {
+        const handleCreateAccount = fork("./func/delete_account.js");
+        console.log(req.params.id);
+        handleCreateAccount.send(req.params);
         handleCreateAccount.on("message", message => res.send(message));
     });
 
