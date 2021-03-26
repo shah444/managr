@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:managr_frontend/pages/createEvent.dart';
+import 'package:managr_frontend/pages/events.dart';
 
 import '../colors.dart';
 
@@ -29,6 +30,8 @@ class _HomePageState extends State<HomePage> {
               ButtonTheme(
                 minWidth: screenWidth / 3,
                 height: screenHeight / 16,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                buttonColor: buttonColor,
                 child: RaisedButton(
                   child: Text("Create Event"),
                   onPressed: () {
@@ -37,6 +40,24 @@ class _HomePageState extends State<HomePage> {
                       MaterialPageRoute(builder: (context) => CreateEvent()),
                     );
                   },
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 20),
+                child: ButtonTheme(
+                  minWidth: screenWidth / 3,
+                  height: screenHeight / 16,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  buttonColor: buttonColor,
+                  child: RaisedButton(
+                    child: Text("Retrieve events from database"),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Events()),
+                      );
+                    },
+                  ),
                 ),
               )
             ],

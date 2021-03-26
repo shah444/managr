@@ -11,20 +11,31 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
-  TextEditingController firstNameController = new TextEditingController();
-  TextEditingController lastNameController = new TextEditingController();
+  TextEditingController nameController = new TextEditingController();
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextEditingController confirmPasswordController = new TextEditingController();
 
 
-  Future<void> createAccount() {
-    var url = "managr-server.herokuapp.com/account";
+  Future<void> createAccount() async {
+    var url = "http://managr-server.herokuapp.com/account";
     var accDetails = JsonEncoder().convert(
       {
-
+        "name": nameController.text,
+        "email": emailController.text
       }
     );
+    http.Response resp = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: accDetails
+    );
+
+    if (resp.statusCode == 200) {
+      print("User information added into the database successfully");
+    }
   }
 
 
@@ -54,26 +65,10 @@ class _CreateAccountState extends State<CreateAccount> {
                   borderRadius: BorderRadius.circular(9),
                 ),
                 child: TextField(
-                  controller: firstNameController,
+                  controller: nameController,
                   decoration: InputDecoration(
                       icon: Icon(Icons.person),
-                      hintText: "First Name"
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
-                padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
-                width: screenWidth * 0.8,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                child: TextField(
-                  controller: lastNameController,
-                  decoration: InputDecoration(
-                      icon: Icon(Icons.person),
-                      hintText: "Last Name"
+                      hintText: "Name"
                   ),
                 ),
               ),
@@ -132,10 +127,12 @@ class _CreateAccountState extends State<CreateAccount> {
                 child: ButtonTheme(
                   minWidth: screenWidth / 3,
                   height: screenHeight / 16,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  buttonColor: buttonColor,
                   child: RaisedButton(
                     child: Text("Create Account"),
-                    onPressed: () {
-                      
+                    onPressed: () async {
+                      await createAccount();
                     },
                   ),
                 ),

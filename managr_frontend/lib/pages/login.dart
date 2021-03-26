@@ -63,10 +63,11 @@ class _LoginState extends State<Login> {
                 child: ButtonTheme(
                   minWidth: screenWidth / 3,
                   height: screenHeight / 16,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  buttonColor: buttonColor,
                   child: RaisedButton(
                     child: Text("Login"),
                     elevation: 1,
-                    color: Colors.purple[100],
                     highlightColor: Colors.blue,
                     onPressed: () {
                       Navigator.push(
@@ -80,7 +81,7 @@ class _LoginState extends State<Login> {
               Container(
                 padding: EdgeInsets.only(top: 20),
                 child: FlatButton(
-                  child: Text("Create Account"),
+                  child: Text("Create Account", style: TextStyle(decoration: TextDecoration.underline),),
                   onPressed: () {
                     Navigator.push(
                       context,

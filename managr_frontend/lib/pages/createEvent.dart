@@ -89,6 +89,8 @@ class _CreateEventState extends State<CreateEvent> {
                 child: ButtonTheme(
                   minWidth: screenWidth / 3,
                   height: screenHeight / 16,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  buttonColor: buttonColor,
                   child: RaisedButton(
                     child: Text("Create Event"),
                     onPressed: () {
