@@ -29,6 +29,10 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
+                margin: EdgeInsets.only(bottom: 30),
+                child: Text("Managr", style: TextStyle(fontSize: 60))
+              ),
+              Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                 padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
                 width: screenWidth * 0.8,
