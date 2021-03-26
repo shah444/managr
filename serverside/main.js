@@ -12,6 +12,7 @@ if (cluster.isMaster) {
     console.log(`Master ${process.pid} is running`);
 
     //Forking workers
+    console.log(numCPUs);
     for (var i = 0; i < numCPUs; i++) {
         cluster.fork();
     }
@@ -36,20 +37,18 @@ if (cluster.isMaster) {
         handleGetEvent.on("message", message => res.send(message));
     });
 
-    app.route("/account")
+    app.route("/account/:id")
     .post(jsonparser, (req, res) => {
         const handleCreateAccount = fork("./func/create_account.js");
         console.log(req.body);
         handleCreateAccount.send(req.body);
         handleCreateAccount.on("message", message => res.send(message));
-    });
-
-    app.route("/account/:id")
+    })
     .delete(jsonparser, (req, res) => {
-        const handleCreateAccount = fork("./func/delete_account.js");
+        const handleDeleteAccount = fork("./func/delete_account.js");
         console.log(req.params.id);
-        handleCreateAccount.send(req.params);
-        handleCreateAccount.on("message", message => res.send(message));
+        handleDeleteAccount.send(req.params);
+        handleDeleteAccount.on("message", message => res.send(message));
     });
 
 
