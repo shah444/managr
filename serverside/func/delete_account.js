@@ -9,7 +9,7 @@ process.on("message", message => {
         console.log('Database connection established.');
         console.log(message);
         var data = {
-            email: message.id
+            ID: message.id
         };
         console.log(data);
         deleteAccount(data, connection).then((answer) => {
@@ -26,9 +26,9 @@ process.on("message", message => {
 });
 
 const deleteAccount = (data, connection) => {
-    var email = data.email;
-    var query1 = `SELECT * FROM users WHERE email = '${email}';`
-    var query2 = `DELETE FROM users WHERE email = '${email}';`
+    var ID = data.ID;
+    var query1 = `SELECT * FROM users WHERE person_id = '${ID}';`
+    var query2 = `DELETE FROM users WHERE person_id = '${ID}';`
     return new Promise(async (resolve, reject) => {
         connection.query(query1, (err, result) => {
             if (err) {

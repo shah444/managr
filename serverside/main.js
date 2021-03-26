@@ -37,7 +37,8 @@ if (cluster.isMaster) {
         handleGetEvent.on("message", message => res.send(message));
     });
 
-    app.route("/account/:id")
+
+    app.route("/account/:id?")
     .post(jsonparser, (req, res) => {
         const handleCreateAccount = fork("./func/create_account.js");
         console.log(req.body);
@@ -50,6 +51,7 @@ if (cluster.isMaster) {
         handleDeleteAccount.send(req.params);
         handleDeleteAccount.on("message", message => res.send(message));
     });
+
 
 
 
