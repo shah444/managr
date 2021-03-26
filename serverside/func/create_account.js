@@ -10,7 +10,7 @@ process.on("message", message => {
         console.log(message);
         var data = {
             email: message.email,
-            name: message.name,
+            name: message.name
         };
         console.log(data);
         createAccount(data, connection).then((answer) => {
