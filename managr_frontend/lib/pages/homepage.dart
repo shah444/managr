@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:managr_frontend/pages/createEvent.dart';
 import 'package:managr_frontend/pages/events.dart';
+import 'package:managr_frontend/pages/invitaiton.dart';
 
 import '../colors.dart';
 
@@ -30,7 +31,8 @@ class _HomePageState extends State<HomePage> {
               ButtonTheme(
                 minWidth: screenWidth / 3,
                 height: screenHeight / 16,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
                 buttonColor: buttonColor,
                 child: RaisedButton(
                   child: Text("Create Event"),
@@ -47,7 +49,8 @@ class _HomePageState extends State<HomePage> {
                 child: ButtonTheme(
                   minWidth: screenWidth / 3,
                   height: screenHeight / 16,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
                   buttonColor: buttonColor,
                   child: RaisedButton(
                     child: Text("Retrieve events from database"),
@@ -55,6 +58,25 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Events()),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 20),
+                child: ButtonTheme(
+                  minWidth: screenWidth / 3,
+                  height: screenHeight / 16,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  buttonColor: buttonColor,
+                  child: RaisedButton(
+                    child: Text("Invite List"),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Invitations()),
                       );
                     },
                   ),

@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:managr_frontend/colors.dart';
 import 'package:http/http.dart' as http;
 
-class Events extends StatefulWidget {
+class Invitations extends StatefulWidget {
   @override
-  _EventsState createState() => _EventsState();
+  _InvitationState createState() => _InvitationState();
 }
 
-class _EventsState extends State<Events> {
+class _InvitationState extends State<Invitations> {
   Future<http.Response> getEvent() async {
-    var url = "http://managr-server.herokuapp.com/event?event_id=1";
+    var url = "http://managr-server.herokuapp.com/invitelist?person_id=2";
     http.Response resp = await http.get(url);
     print("response body is ${resp.body}");
     return resp;
@@ -34,10 +34,9 @@ class _EventsState extends State<Events> {
                   if (snapshot.hasData) {
                     var eventData = jsonDecode(snapshot.data.body)[0];
                     var eventTitle = eventData['event_title'];
-                    var date = eventData['date'];
-                    var room_id = eventData['room_id'].toString();
-                    var eventDetails = eventData['details'];
-                    var invited_count = eventData['invited_count'].toString();
+                    var event_id = eventData['event_id'];
+                    var person_id = eventData['person_id'].toString();
+                    var email = eventData['email'];
                     return Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -62,11 +61,11 @@ class _EventsState extends State<Events> {
                             child: Row(
                               children: [
                                 Text(
-                                  "Details:",
+                                  "EventID:",
                                   style: TextStyle(fontSize: 18),
                                 ),
                                 Text(
-                                  eventDetails,
+                                  event_id,
                                   style: TextStyle(fontSize: 18),
                                 )
                               ],
@@ -77,11 +76,11 @@ class _EventsState extends State<Events> {
                             child: Row(
                               children: [
                                 Text(
-                                  "Creation Date:",
+                                  "PersonID:",
                                   style: TextStyle(fontSize: 18),
                                 ),
                                 Text(
-                                  date,
+                                  person_id,
                                   style: TextStyle(fontSize: 18),
                                 )
                               ],
@@ -92,26 +91,11 @@ class _EventsState extends State<Events> {
                             child: Row(
                               children: [
                                 Text(
-                                  "Room ID:",
+                                  "Email:",
                                   style: TextStyle(fontSize: 18),
                                 ),
                                 Text(
-                                  room_id,
-                                  style: TextStyle(fontSize: 18),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Invited Guests:",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Text(
-                                  invited_count,
+                                  email,
                                   style: TextStyle(fontSize: 18),
                                 )
                               ],
