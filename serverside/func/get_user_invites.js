@@ -7,7 +7,7 @@ process.on("message", message => {
         }
         
         console.log('Database connection established.');
-        getUserInvites(message.event_id, connection).then((result) => {
+        getUserInvites(message.person_id, connection).then((result) => {
             connection.release();
             process.send(result);
             process.exit();
