@@ -11,7 +11,7 @@ class Invitations extends StatefulWidget {
 
 class _InvitationState extends State<Invitations> {
   Future<http.Response> getEvent() async {
-    var url = "http://managr-server.herokuapp.com/invitation?person_id=2";
+    var url = "http://managr-server.herokuapp.com/invitation?person_id=3";
     http.Response resp = await http.get(url);
     print("response body is ${resp.body}");
     return resp;
