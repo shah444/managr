@@ -11,7 +11,7 @@ class Invitations extends StatefulWidget {
 
 class _InvitationState extends State<Invitations> {
   Future<http.Response> getEvent() async {
-    var url = "http://managr-server.herokuapp.com/invitelist?person_id=2";
+    var url = "http://managr-server.herokuapp.com/invitation?person_id=2";
     http.Response resp = await http.get(url);
     print("response body is ${resp.body}");
     return resp;
@@ -33,8 +33,8 @@ class _InvitationState extends State<Invitations> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     var eventData = jsonDecode(snapshot.data.body)[0];
+                    var event_id = eventData['event_id'].toString();
                     var eventTitle = eventData['event_title'];
-                    var event_id = eventData['event_id'];
                     var person_id = eventData['person_id'].toString();
                     var email = eventData['email'];
                     return Container(

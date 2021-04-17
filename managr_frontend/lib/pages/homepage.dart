@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:managr_frontend/pages/createEvent.dart';
 import 'package:managr_frontend/pages/events.dart';
-import 'package:managr_frontend/pages/invitaiton.dart';
+import 'package:managr_frontend/pages/invitation.dart';
 
 import '../colors.dart';
 
