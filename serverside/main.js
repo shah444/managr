@@ -55,7 +55,7 @@ if (cluster.isMaster) {
     .get((req, res) => {
         const handleGetEvent = fork("./func/get_user_invites.js");
         var data = {
-            person_id: req.query.person_id
+            person_id: req.query.person_id 
         };
         handleGetEvent.send(data);
         handleGetEvent.on("message", message => res.send(message));
