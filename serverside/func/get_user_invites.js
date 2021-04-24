@@ -16,7 +16,7 @@ process.on("message", message => {
 });
 
 const getUserInvites = (person_id, connection) => {
-    var query = `SELECT * FROM invitelist WHERE person_id = ${person_id}`;
+    var query = `SELECT * FROM invitelist natural join rsvp WHERE person_id = ${person_id}`;
     return new Promise(async (resolve, reject) => {
         await connection.query(query, (err, result) => {
             if (err) {
