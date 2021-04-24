@@ -7,6 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 23556;
 const bodyparser = require('body-parser');
 var jsonparser = bodyparser.json();
+//git subtree push --prefix serverside heroku master
 
 if (cluster.isMaster) {
     console.log(`Master ${process.pid} is running`);
@@ -62,14 +63,12 @@ if (cluster.isMaster) {
     });
 
     app.route("/rsvp")
-    .get((req, res) => {
-        const handleGetEvent = fork("./func/update_rsvp.js");
-        var data = {
-            person_id: req.query.person_id 
-        };
-        handleGetEvent.send(data);
-        handleGetEvent.on("message", message => res.send(message));
-    });
+    .put(jsonparser, (req, res) => {
+        const handleCreateAccount = fork("./func/update_rsvp.js");
+        console.log(req.body);
+        handleCreateAccount.send(req.body);
+        handleCreateAccount.on("message", message => res.send(message));
+    })
 
 
 
