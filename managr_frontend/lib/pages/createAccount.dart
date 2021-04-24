@@ -16,28 +16,20 @@ class _CreateAccountState extends State<CreateAccount> {
   TextEditingController passwordController = new TextEditingController();
   TextEditingController confirmPasswordController = new TextEditingController();
 
-
   Future<void> createAccount() async {
     var url = "http://managr-server.herokuapp.com/account";
-    var accDetails = JsonEncoder().convert(
-      {
-        "name": nameController.text,
-        "email": emailController.text
-      }
-    );
-    http.Response resp = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: accDetails
-    );
+    var accDetails = JsonEncoder()
+        .convert({"name": nameController.text, "email": emailController.text});
+    http.Response resp = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: accDetails);
 
     if (resp.statusCode == 200) {
       print("User information added into the database successfully");
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +50,7 @@ class _CreateAccountState extends State<CreateAccount> {
             children: [
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
-                padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 width: screenWidth * 0.8,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -67,14 +59,12 @@ class _CreateAccountState extends State<CreateAccount> {
                 child: TextField(
                   controller: nameController,
                   decoration: InputDecoration(
-                      icon: Icon(Icons.person),
-                      hintText: "Name"
-                  ),
+                      icon: Icon(Icons.person), hintText: "Name"),
                 ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
-                padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 width: screenWidth * 0.8,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -83,14 +73,12 @@ class _CreateAccountState extends State<CreateAccount> {
                 child: TextField(
                   controller: emailController,
                   decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      hintText: "Email"
-                  ),
+                      icon: Icon(Icons.email), hintText: "Email"),
                 ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
-                padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 width: screenWidth * 0.8,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -100,14 +88,12 @@ class _CreateAccountState extends State<CreateAccount> {
                   obscureText: true,
                   controller: passwordController,
                   decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
-                      hintText: "Password"
-                  ),
+                      icon: Icon(Icons.lock), hintText: "Password"),
                 ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
-                padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 width: screenWidth * 0.8,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -117,9 +103,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   obscureText: true,
                   controller: confirmPasswordController,
                   decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
-                      hintText: "Confirm Password"
-                  ),
+                      icon: Icon(Icons.lock), hintText: "Confirm Password"),
                 ),
               ),
               Container(
@@ -127,7 +111,8 @@ class _CreateAccountState extends State<CreateAccount> {
                 child: ButtonTheme(
                   minWidth: screenWidth / 3,
                   height: screenHeight / 16,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
                   buttonColor: buttonColor,
                   child: RaisedButton(
                     child: Text("Create Account"),

@@ -1,4 +1,4 @@
-name: managr_frontend
+name: chrome
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -23,9 +23,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.12.2
-  
-
 
 
   # The following adds the Cupertino Icons font to your application.
