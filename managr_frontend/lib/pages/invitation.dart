@@ -11,7 +11,7 @@ class Invitations extends StatefulWidget {
 
 class _InvitationState extends State<Invitations> {
   Future<http.Response> getEvent() async {
-    var url = "http://managr-server.herokuapp.com/invitation?person_id=3";
+    var url = "http://managr-server.herokuapp.com/invitation?person_id=2";
     http.Response resp = await http.get(url);
     print("response body is ${resp.body}");
     return resp;
@@ -37,6 +37,7 @@ class _InvitationState extends State<Invitations> {
                     var eventTitle = eventData['event_title'];
                     var person_id = eventData['person_id'].toString();
                     var email = eventData['email'];
+                    var attending = eventData['attending'].toString();
                     return Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -96,6 +97,21 @@ class _InvitationState extends State<Invitations> {
                                 ),
                                 Text(
                                   email,
+                                  style: TextStyle(fontSize: 18),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 40),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Attending:",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Text(
+                                  attending,
                                   style: TextStyle(fontSize: 18),
                                 )
                               ],
