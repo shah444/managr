@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:managr_frontend/colors.dart';
 import 'package:managr_frontend/pages/createAccount.dart';
@@ -9,7 +10,29 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
   
+
+  loginUsingFirebase() {
+    var email = emailController.text;
+    var password = passwordController.text;
+
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.signInWithEmailAndPassword(email: email, password: password).then((value) {
+      print("Login successful");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+      return;
+    }).catchError((onError) {
+      print("Login error: $onError");
+      return;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -41,6 +64,7 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(9),
                 ),
                 child: TextField(
+                  controller: emailController,
                   decoration: InputDecoration(
                       icon: Icon(Icons.email),
                       hintText: "Email"
@@ -56,6 +80,10 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(9),
                 ),
                 child: TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
                   decoration: InputDecoration(
                       icon: Icon(Icons.lock),
                       hintText: "Password"
@@ -73,11 +101,8 @@ class _LoginState extends State<Login> {
                     child: Text("Login"),
                     elevation: 1,
                     highlightColor: Colors.blue,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
+                    onPressed: () async {
+                      await loginUsingFirebase();
                     },
                   ),
                 ),

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CreateAccount extends StatefulWidget {
   @override
@@ -17,6 +19,13 @@ class _CreateAccountState extends State<CreateAccount> {
   TextEditingController confirmPasswordController = new TextEditingController();
 
   Future<void> createAccount() async {
+    var name = nameController.text;
+    var email = emailController.text;
+    var password = passwordController.text;
+    var confirmPassword = confirmPasswordController.text;
+
+    await addToFirebase(email, password, confirmPassword);
+
     var url = "http://managr-server.herokuapp.com/account";
     var accDetails = JsonEncoder()
         .convert({"name": nameController.text, "email": emailController.text});
@@ -28,6 +37,19 @@ class _CreateAccountState extends State<CreateAccount> {
 
     if (resp.statusCode == 200) {
       print("User information added into the database successfully");
+    }
+  }
+
+  addToFirebase(String email, String password, String confirmPassword) {
+    if (password == confirmPassword) {
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      auth.createUserWithEmailAndPassword(email: email, password: password).then((value) => {
+        print("Account successfully created!")
+      }).catchError((onError) {
+        print("Error creating account: $onError");
+      });
+    } else {
+      print("Passwords do not match! Please try again.");
     }
   }
 
