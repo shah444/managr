@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   SharedPreferences prefs;
 
   @override
@@ -24,7 +23,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     initializeSharedPrefs();
   }
-  
+
   initializeSharedPrefs() async {
     prefs = await SharedPreferences.getInstance();
   }
@@ -33,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
-    
+
     return Scaffold(
       backgroundColor: bottomGrad,
       extendBodyBehindAppBar: true,
@@ -43,90 +42,116 @@ class _HomePageState extends State<HomePage> {
         iconTheme: IconThemeData(color: Colors.black),
         actions: [
           IconButton(
-            icon: Icon(Icons.account_circle),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Profile()));
-            }
-          )
+              icon: Icon(Icons.account_circle),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Profile()));
+              })
         ],
       ),
       body: Container(
+        padding: EdgeInsets.only(bottom: screenHeight / 20),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ButtonTheme(
-                minWidth: screenWidth / 3,
-                height: screenHeight / 16,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                buttonColor: buttonColor,
-                child: RaisedButton(
-                  child: Text("Create Event"),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CreateEvent()),
-                    );
-                  },
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 20),
-                child: ButtonTheme(
-                  minWidth: screenWidth / 3,
-                  height: screenHeight / 16,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  buttonColor: buttonColor,
-                  child: RaisedButton(
-                    child: Text("Retrieve events from database"),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Events()),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 20),
-                child: ButtonTheme(
-                  minWidth: screenWidth / 3,
-                  height: screenHeight / 16,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  buttonColor: buttonColor,
-                  child: RaisedButton(
-                    child: Text("Invite List"),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Invitations()),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 20),
-                child: ButtonTheme(
-                    minWidth: screenWidth / 3,
-                    height: screenHeight / 16,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ButtonTheme(
+                    minWidth: screenWidth / 2,
+                    height: screenHeight / 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                      ),
+                    ),
                     buttonColor: buttonColor,
                     child: RaisedButton(
-                      child: Text("Logout"),
-                      onPressed: () async {
-                        await FirebaseAuth.instance.signOut();
+                      child: Text("New Event"),
+                      onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Login()),
+                          MaterialPageRoute(
+                              builder: (context) => CreateEvent()),
                         );
                       },
                     ),
                   ),
+                  Container(
+                    //padding: EdgeInsets.only(left: 20),
+                    child: ButtonTheme(
+                      minWidth: screenWidth / 2,
+                      height: screenHeight / 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(40),
+                        ),
+                      ),
+                      buttonColor: buttonColor,
+                      child: RaisedButton(
+                        child: Text("View Scheduled Events"),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Events()),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    //padding: EdgeInsets.only(top: 20),
+                    child: ButtonTheme(
+                      minWidth: screenWidth / 2,
+                      height: screenHeight / 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(40),
+                        ),
+                      ),
+                      buttonColor: buttonColor,
+                      child: RaisedButton(
+                        child: Text("Invite List"),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Invitations()),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    //padding: EdgeInsets.only(top: 20),
+                    child: ButtonTheme(
+                      minWidth: screenWidth / 2,
+                      height: screenHeight / 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(40),
+                        ),
+                      ),
+                      buttonColor: buttonColor,
+                      child: RaisedButton(
+                        child: Text("Logout"),
+                        onPressed: () async {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Login()),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
