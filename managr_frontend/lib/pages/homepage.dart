@@ -5,6 +5,7 @@ import 'package:managr_frontend/pages/events.dart';
 import 'package:managr_frontend/pages/invitation.dart';
 import 'package:managr_frontend/pages/login.dart';
 import 'package:managr_frontend/pages/profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../colors.dart';
 
@@ -14,11 +15,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  SharedPreferences prefs;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initializeSharedPrefs();
+  }
+  
+  initializeSharedPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
-
+    
     return Scaffold(
       backgroundColor: bottomGrad,
       extendBodyBehindAppBar: true,

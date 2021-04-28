@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:managr_frontend/colors.dart';
 import 'package:managr_frontend/data_models/deleteUser.dart';
 import 'package:managr_frontend/pages/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -10,9 +12,23 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  SharedPreferences prefs;
+  ValueNotifier<String> name = new ValueNotifier<String>("");
+  ValueNotifier<String> email = new ValueNotifier<String>("");
 
-  void onDeleteAccount(String email, String password) {
-    
+  void getUserInfo() async {
+    prefs = await SharedPreferences.getInstance();
+    name.value = prefs.getString('name');
+    email.value = prefs.getString('email');
+    print("name is " + name.toString());
+    print("email is " + email.toString());
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserInfo();
   }
 
   @override
@@ -101,7 +117,12 @@ class _ProfileState extends State<Profile> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10, left: 30),
-                      child: Text("Vidit S Shah", style: TextStyle(fontSize: 25),),
+                      child: ValueListenableBuilder(
+                        valueListenable: name,
+                        builder: (context, value, child) {
+                          return Text(value.toString(), style: TextStyle(fontSize: 25),);
+                        },
+                        ),
                     )
                   ],
                 ),
@@ -122,7 +143,12 @@ class _ProfileState extends State<Profile> {
                         Text("Name:", style: TextStyle(fontSize: 18)),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
-                          child: Text("Vidit S Shah", style: TextStyle(fontSize: 18)),
+                          child: ValueListenableBuilder(
+                            valueListenable: name,
+                            builder: (context, value, child) {
+                              return Text(value, style: TextStyle(fontSize: 18));
+                            },
+                          ),
                         )
                       ],
                     ),
@@ -134,7 +160,12 @@ class _ProfileState extends State<Profile> {
                         Text("Email:", style: TextStyle(fontSize: 18)),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
-                          child: Text("shahvidit39@gmail.com", style: TextStyle(fontSize: 18)),
+                          child: ValueListenableBuilder(
+                            valueListenable: email,
+                            builder: (context, value, child) {
+                              return Text(value.toString(), style: TextStyle(fontSize: 25),);
+                            }
+                          ),
                         )
                       ],
                     ),
@@ -200,11 +231,11 @@ class _ProfileState extends State<Profile> {
                                       color: Colors.red,
                                       child: Text("Delete account"),
                                       onPressed: () async {
-                                        String email = emailController.text;
+                                        String enteredEmail = emailController.text;
                                         String password = passwordController.text;
                                         User user = FirebaseAuth.instance.currentUser;
 
-                                        DeleteUser deleteUser = new DeleteUser(email, password, user);
+                                        DeleteUser deleteUser = new DeleteUser(enteredEmail, password, user);
                                         var deletionStatus = await deleteUser.deleteUser();
                                         if (deletionStatus == "success") {
                                           print("User deleted successfully");
