@@ -16,12 +16,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   SharedPreferences prefs;
+  ValueNotifier<String> name = new ValueNotifier<String>("");
+
+  void getUserInfo() async {
+    prefs = await SharedPreferences.getInstance();
+    name.value = prefs.getString('name');
+    print("name is " + name.toString());
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     initializeSharedPrefs();
+    getUserInfo();
   }
 
   initializeSharedPrefs() async {
@@ -60,7 +68,13 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                      child: Text("Name", style: TextStyle(fontSize: 50))),
+                    child: ValueListenableBuilder(
+                      valueListenable: name,
+                      builder: (context, value, child) {
+                        return Text(value, style: TextStyle(fontSize: 50));
+                      },
+                    ),
+                  ),
                 ],
               ),
               Column(
