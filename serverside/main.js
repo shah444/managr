@@ -47,6 +47,14 @@ if (cluster.isMaster) {
     });
 
     app.route("/account/:id?")
+    .get((req, res) => {
+        const handleGetAccount = fork('./func/get_account.js');
+        var data = {
+            email: req.query.email
+        }
+        handleGetAccount.send(data);
+        handleGetAccount.on('message', message => res.send(message));
+    })
     .post(jsonparser, (req, res) => {
         const handleCreateAccount = fork("./func/create_account.js");
         console.log(req.body);
