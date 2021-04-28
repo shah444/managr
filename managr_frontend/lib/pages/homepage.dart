@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:managr_frontend/pages/createEvent.dart';
 import 'package:managr_frontend/pages/events.dart';
 import 'package:managr_frontend/pages/invitation.dart';
+import 'package:managr_frontend/pages/login.dart';
+import 'package:managr_frontend/pages/profile.dart';
 
 import '../colors.dart';
 
@@ -22,6 +25,15 @@ class _HomePageState extends State<HomePage> {
       appBar: new AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Colors.black),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.account_circle),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Profile()));
+            }
+          )
+        ],
       ),
       body: Container(
         child: Center(
@@ -81,7 +93,26 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
-              )
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 20),
+                child: ButtonTheme(
+                    minWidth: screenWidth / 3,
+                    height: screenHeight / 16,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    buttonColor: buttonColor,
+                    child: RaisedButton(
+                      child: Text("Logout"),
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login()),
+                        );
+                      },
+                    ),
+                  ),
+              ),
             ],
           ),
         ),

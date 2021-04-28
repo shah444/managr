@@ -140,6 +140,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     child: Text("Create Account"),
                     onPressed: () async {
                       await createAccount();
+                      Navigator.pop(context);
                     },
                   ),
                 ),
