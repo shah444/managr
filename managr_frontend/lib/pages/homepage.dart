@@ -19,7 +19,6 @@ class _HomePageState extends State<HomePage> {
   ValueNotifier<String> name = new ValueNotifier<String>("");
 
   void getUserInfo() async {
-    prefs = await SharedPreferences.getInstance();
     name.value = prefs.getString('name');
     print("name is " + name.toString());
   }
@@ -71,7 +70,8 @@ class _HomePageState extends State<HomePage> {
                     child: ValueListenableBuilder(
                       valueListenable: name,
                       builder: (context, value, child) {
-                        return Text(value, style: TextStyle(fontSize: 50));
+                        return Text(value.toString(),
+                            style: TextStyle(fontSize: 50));
                       },
                     ),
                   ),
