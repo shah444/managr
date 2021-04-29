@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:managr_frontend/colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Events extends StatefulWidget {
   @override
@@ -10,8 +11,14 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
+  SharedPreferences prefs;
+
   Future<http.Response> getEvent() async {
-    var url = "http://managr-server.herokuapp.com/event?event_id=1";
+    prefs = await SharedPreferences.getInstance();
+    int userID = prefs.getInt('userID');
+    var url = "http://managr-server.herokuapp.com/event?event_id=" +
+        userID.toString();
+    print("userID is " + userID.toString());
     http.Response resp = await http.get(url);
     print("response body is ${resp.body}");
     return resp;
