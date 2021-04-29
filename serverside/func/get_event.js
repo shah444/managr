@@ -7,7 +7,7 @@ process.on("message", message => {
         }
         
         console.log('Database connection established.');
-        getEvent(message.host_id, connection).then((result) => {
+        getEvent(message.event_id, connection).then((result) => {
             connection.release();
             process.send(result);
             process.exit();
@@ -15,8 +15,8 @@ process.on("message", message => {
     });
 });
 
-const getEvent = (host_id, connection) => {
-    var query = `SELECT * FROM events WHERE host_id = ${host_id}`;
+const getEvent = (event_id, connection) => {
+    var query = `SELECT * FROM events WHERE host_id = ${event_id}`;
     return new Promise(async (resolve, reject) => {
         await connection.query(query, (err, result) => {
             if (err) {
