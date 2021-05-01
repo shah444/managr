@@ -16,9 +16,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   SharedPreferences prefs;
-  ValueNotifier<String> name = new ValueNotifier<String>("");
+  ValueNotifier<String> name = new ValueNotifier<String>("Name");
 
   void getUserInfo() async {
+    //prefs = await SharedPreferences.getInstance();
     name.value = prefs.getString('name');
     print("name is " + name.toString());
   }
@@ -76,6 +77,31 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ],
+              ),
+              Card(
+                clipBehavior: Clip.antiAlias,
+                color: buttonColor,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: Icon(Icons.arrow_drop_down_circle),
+                      title: const Text('Upcoming Event'),
+                      subtitle: Text(
+                        'Event Name',
+                        style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        'Event Description: The quick brown fox jumps over the lazy dog',
+                        //style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                      ),
+                    ),
+                    // Image.asset('assets/card-sample-image.jpg'),
+                    //  Image.asset('assets/card-sample-image-2.jpg'),
+                  ],
+                ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
