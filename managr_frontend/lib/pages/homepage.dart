@@ -81,6 +81,9 @@ class _HomePageState extends State<HomePage> {
               Card(
                 clipBehavior: Clip.antiAlias,
                 color: buttonColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
                 child: Column(
                   children: [
                     ListTile(
