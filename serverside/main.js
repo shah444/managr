@@ -79,12 +79,20 @@ if (cluster.isMaster) {
     });
 
     app.route("/rsvp")
+    .get((req, res) => {
+        const handleGetEvent = fork("./func/get_upcoming_event.js");
+        var data = {
+            person_id: req.query.person_id 
+        };
+        handleGetEvent.send(data);
+        handleGetEvent.on("message", message => res.send(message));
+    })
     .put(jsonparser, (req, res) => {
         const handleCreateAccount = fork("./func/update_rsvp.js");
         console.log(req.body);
         handleCreateAccount.send(req.body);
         handleCreateAccount.on("message", message => res.send(message));
-    })
+    });
 
 
 
