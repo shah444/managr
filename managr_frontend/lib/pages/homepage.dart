@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   ValueNotifier<String> name = new ValueNotifier<String>("Name");
 
   void getUserInfo() async {
-    //prefs = await SharedPreferences.getInstance();
+    prefs = await SharedPreferences.getInstance();
     name.value = prefs.getString('name');
     print("name is " + name.toString());
   }
@@ -82,6 +82,9 @@ class _HomePageState extends State<HomePage> {
               Card(
                 clipBehavior: Clip.antiAlias,
                 color: buttonColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
                 child: Column(
                   children: [
                     ListTile(
