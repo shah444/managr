@@ -39,7 +39,13 @@ class _EventsState extends State<Events> {
                 future: getEvent(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    var eventData = jsonDecode(snapshot.data.body)[0];
+                    var data = jsonDecode(snapshot.data.body);
+                    if (data.length == 0) {
+                      return Center(
+                        child: Text("You do not have any scheduled events."),
+                      );
+                    }
+                    var eventData = data[0];
                     var eventTitle = eventData['event_title'];
                     var date = eventData['date'];
                     var room_id = eventData['room_id'].toString();

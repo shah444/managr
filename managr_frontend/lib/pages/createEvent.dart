@@ -32,10 +32,8 @@ class _CreateEventState extends State<CreateEvent> {
             margin: EdgeInsets.only(top: 40),
             child: Column(
               children: [
-                Text("Choose a time...", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-                TimeCard("8:00 AM", "April 29, 2021"),
-                TimeCard("9:00 AM", "May 1, 2021"),
-                TimeCard("10:00 AM", "May 3, 2021"),
+                Text("Choose a date...", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                TimeCard(),
                 Container(
                   margin: EdgeInsets.only(top: 10),
                   child: Text("Swipe right >>>", style: TextStyle(fontSize: 18),)

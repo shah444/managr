@@ -59,8 +59,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Container(
-        padding:
-            EdgeInsets.only(top: screenHeight / 20, bottom: screenHeight / 20),
+        padding: EdgeInsets.only(top: screenHeight / 20, bottom: screenHeight / 20),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -72,19 +71,17 @@ class _HomePageState extends State<HomePage> {
                     child: ValueListenableBuilder(
                       valueListenable: name,
                       builder: (context, value, child) {
-                        return Text(value.toString(),
-                            style: TextStyle(fontSize: 50));
+                        return Text(value.toString(), style: TextStyle(fontSize: 50));
                       },
                     ),
                   ),
                 ],
               ),
               Card(
+                margin: EdgeInsets.all(10),
                 clipBehavior: Clip.antiAlias,
                 color: buttonColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
                 child: Column(
                   children: [
                     ListTile(
@@ -107,110 +104,116 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ButtonTheme(
-                        minWidth: screenWidth / 2,
-                        height: screenHeight / 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                          ),
-                        ),
-                        buttonColor: buttonColor,
-                        child: RaisedButton(
-                          child: Text("New Event"),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CreateEvent()),
-                            );
-                          },
-                        ),
-                      ),
-                      Container(
-                        //padding: EdgeInsets.only(left: 20),
-                        child: ButtonTheme(
-                          minWidth: screenWidth / 2,
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: screenWidth / 2.2,
                           height: screenHeight / 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(40),
+                          child: ButtonTheme(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(40),
+                              ),
+                            ),
+                            buttonColor: buttonColor,
+                            child: RaisedButton(
+                              child: Text("New Event"),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateEvent()),
+                                );
+                              },
                             ),
                           ),
-                          buttonColor: buttonColor,
-                          child: RaisedButton(
-                            child: Text("View Scheduled Events"),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Events()),
-                              );
-                            },
-                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        //padding: EdgeInsets.only(top: 20),
-                        child: ButtonTheme(
-                          minWidth: screenWidth / 2,
+                        Container(
+                          width: screenWidth / 2.2,
                           height: screenHeight / 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(40),
+                          child: ButtonTheme(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(40),
+                              ),
+                            ),
+                            buttonColor: buttonColor,
+                            child: RaisedButton(
+                              child: Text("View Scheduled Events"),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Events()),
+                                );
+                              },
                             ),
                           ),
-                          buttonColor: buttonColor,
-                          child: RaisedButton(
-                            child: Text("Invite List"),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Invitations()),
-                              );
-                            },
-                          ),
                         ),
-                      ),
-                      Container(
-                        //padding: EdgeInsets.only(top: 20),
-                        child: ButtonTheme(
-                          minWidth: screenWidth / 2,
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: screenWidth / 2.2,
                           height: screenHeight / 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(40),
+                          child: ButtonTheme(
+                            minWidth: screenWidth / 2.5,
+                            height: screenHeight / 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(40),
+                              ),
+                            ),
+                            buttonColor: buttonColor,
+                            child: RaisedButton(
+                              child: Text("Invite List"),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Invitations()),
+                                );
+                              },
                             ),
                           ),
-                          buttonColor: buttonColor,
-                          child: RaisedButton(
-                            child: Text("Logout"),
-                            onPressed: () async {
-                              await FirebaseAuth.instance.signOut();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Login()),
-                              );
-                            },
+                        ),
+                        Container(
+                          width: screenWidth / 2.2,
+                          height: screenHeight / 4,
+                          child: ButtonTheme(
+                            minWidth: screenWidth / 2.5,
+                            height: screenHeight / 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(40),
+                              ),
+                            ),
+                            buttonColor: buttonColor,
+                            child: RaisedButton(
+                              child: Text("Logout"),
+                              onPressed: () async {
+                                await FirebaseAuth.instance.signOut();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Login()),
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
