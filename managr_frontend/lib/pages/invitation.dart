@@ -34,51 +34,51 @@ class _InvitationState extends State<Invitations> {
         elevation: 0,
       ),
       body: Container(
-        child: Center(
-            child: FutureBuilder(
-                future: getEvent(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    var data = jsonDecode(snapshot.data.body);
-                    if (data.length == 0) {
-                      return Center(
-                        child: Text("You have not been invited to any event."),
-                      );
-                    }
-                    return Container(
-                      margin: EdgeInsets.only(top: 55, left: 30),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 10),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Invited To",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                // for (var i in text) Text(i.toString()),
-                                for (var i = 0; i < data.length; i++)
-                                  (RsvpCard(
-                                      data[i]['event_title'],
-                                      data[i]['details'],
-                                      data[i]['date'],
-                                      data[i]['attending'])),
-                              ],
+        child: FutureBuilder(
+            future: getEvent(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var data = jsonDecode(snapshot.data.body);
+                if (data.length == 0) {
+                  return Center(
+                    child: Text("You have not been invited to any event."),
+                  );
+                }
+                return Container(
+                  margin: EdgeInsets.only(top: 55, left: 30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Invited To",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                          ),
-                        ],
+                            // for (var i in text) Text(i.toString()),
+                            for (var i = 0; i < data.length; i++)
+                              (RsvpCard(
+                                  data[i]['event_title'],
+                                  data[i]['details'],
+                                  data[i]['date'],
+                                  data[i]['building'],
+                                  data[i]['room'],
+                                  data[i]['attending'])),
+                          ],
+                        ),
                       ),
-                    );
-                  } else {
-                    return CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(onboardingStart),
-                    );
-                  }
-                })),
+                    ],
+                  ),
+                );
+              } else {
+                return CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(onboardingStart),
+                );
+              }
+            }),
       ),
     );
   }
