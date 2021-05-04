@@ -39,31 +39,26 @@ const createEvent = (data, connection) => {
     var query1 = `SELECT * FROM events WHERE event_id = '${event_id}' OR (date='${evdate}' AND room_id='${room_id}');`
     var query2 = `INSERT INTO events (event_id, date, host_id, room_id, event_title, details, invited_count, accepted_count, cancel) VALUES (${event_id}, '${evdate}', ${host_id}, ${room_id}, '${event_title}', '${details}', 0, 0, 0);`
     return new Promise(async (resolve, reject) => {
-        connection.query(query1, (err, result) => {
+        connection.query(query1, async (err, result) => {
             if (err) {
                 console.log(err.message);
                 reject(err.message);
             }
-            try {
-                if (result.length >= 1) {
-                    process.send({"Error": "The room is already booked on this day"});
-                    resolve("Room already booked");
-                }
-                else {
-                    connection.query(query2, (err, result) => {
-                        if(err){
-                            console.log(err);
-                            reject(err.message);
-                        }
-                        resolve("added");
-                    });
+            result = JSON.stringify(result);
+            result = JSON.parse(result);
+
+            if (result.length >= 1) {
+                process.send({"Error": "The room is already booked on this day"});
+                reject("Room already booked");
+            } else {
+                await connection.query(query2, (err1, result1) => {
+                    if(err1){
+                        console.log(err1);
+                        reject(err1.message);
                     }
-                }
-                catch(error){
-                    reject(err.message);
-                }
-            console.log(result);
-            resolve(result);
+                    resolve(result1);
+                });
+            }
         });
     });
 };
