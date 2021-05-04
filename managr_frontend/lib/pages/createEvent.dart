@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:managr_frontend/colors.dart';
 import 'package:managr_frontend/customWidgets/locationCard.dart';
 import 'package:http/http.dart' as http;
+import 'package:managr_frontend/pages/eventCreationSuccess.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateEvent extends StatefulWidget {
@@ -24,6 +25,7 @@ class _CreateEventState extends State<CreateEvent> {
   SharedPreferences prefs;
   String dateString;
   var chosenRoomCapacity = 0;
+  var chosenRoomID = 0;
 
 
   Future<http.Response> getAvailableDays() async {
@@ -42,6 +44,30 @@ class _CreateEventState extends State<CreateEvent> {
       http.Response resp = await http.get(url);
       print("resp.body for available rooms is " + resp.body);
       return resp;
+    }
+  }
+
+  createEvent() async {
+    var url = "http://managr-server.herokuapp.com/event";
+    var eventDetails = JsonEncoder().convert(
+      {
+        "host_id": prefs.getString('userID'),
+        "evdate": dateString,
+        "room_id": chosenRoomID,
+        "event_title": eventTitleController.text,
+        "details": eventDescriptionController.text,
+      }
+    );
+    http.Response resp = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: eventDetails
+    );
+
+    if (resp.statusCode == 200) {
+      print("Event information added into the database successfully");
     }
   }
 
@@ -189,6 +215,7 @@ class _CreateEventState extends State<CreateEvent> {
                                         roomIndex.value = index;
                                         chosenRoom.value = availableRooms[index]['room'].toString();
                                         chosenRoomCapacity = availableRooms[index]['capacity'];
+                                        chosenRoomID = availableRooms[index]['room_id'];
                                       }
                                     },
                                     child: ValueListenableBuilder(
@@ -352,12 +379,21 @@ class _CreateEventState extends State<CreateEvent> {
                                 elevation: 2,
                                 clipBehavior: Clip.antiAlias,
                                 child: Text("Create Event"),
-                                onPressed: () {
+                                onPressed: () async {
                                   var attendeeCount = attendeeCountController.text;
                                   var eventTitle = eventTitleController.text;
                                   var eventDescription = eventDescriptionController.text;
 
-                                  if (int.parse(attendeeCount) > chosenRoomCapacity) {
+                                  if (attendeeCount == "") {
+                                    Fluttertoast.showToast(
+                                      msg: "Please enter the attendee count",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      backgroundColor: Colors.grey,
+                                      textColor: Colors.white,
+                                      fontSize: 18
+                                    );
+                                  } else if (int.parse(attendeeCount) > chosenRoomCapacity) {
                                     Fluttertoast.showToast(
                                       msg: "Attendee count more than room capacity",
                                       toastLength: Toast.LENGTH_SHORT,
@@ -366,6 +402,36 @@ class _CreateEventState extends State<CreateEvent> {
                                       textColor: Colors.white,
                                       fontSize: 18
                                     );
+                                  } else if (int.parse(attendeeCount) < 0) {
+                                    Fluttertoast.showToast(
+                                      msg: "Invalid attendee count",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      backgroundColor: Colors.grey,
+                                      textColor: Colors.white,
+                                      fontSize: 18
+                                    );
+                                  } else if (eventTitle == "") {
+                                    Fluttertoast.showToast(
+                                      msg: "Please enter the event title",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      backgroundColor: Colors.grey,
+                                      textColor: Colors.white,
+                                      fontSize: 18
+                                    );
+                                  } else if (eventDescription == "") {
+                                    Fluttertoast.showToast(
+                                      msg: "Please enter the event description",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      backgroundColor: Colors.grey,
+                                      textColor: Colors.white,
+                                      fontSize: 18
+                                    );
+                                  } else {
+                                    // await createEvent();
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => EventCreationSuccess()));
                                   }
                                 },
                               ),
