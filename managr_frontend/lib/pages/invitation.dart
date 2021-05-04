@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:managr_frontend/colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:managr_frontend/customWidgets/rsvpCard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Invitations extends StatefulWidget {
   @override
@@ -10,8 +12,13 @@ class Invitations extends StatefulWidget {
 }
 
 class _InvitationState extends State<Invitations> {
+  SharedPreferences prefs;
   Future<http.Response> getEvent() async {
-    var url = "http://managr-server.herokuapp.com/invitation?person_id=2";
+    prefs = await SharedPreferences.getInstance();
+    int userID = prefs.getInt('userID');
+    var url = "http://managr-server.herokuapp.com/invitation?person_id=" +
+        userID.toString();
+    print("userID is " + userID.toString());
     http.Response resp = await http.get(url);
     print("response body is ${resp.body}");
     return resp;
@@ -32,88 +39,34 @@ class _InvitationState extends State<Invitations> {
                 future: getEvent(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    var eventData = jsonDecode(snapshot.data.body)[0];
-                    var event_id = eventData['event_id'].toString();
-                    var eventTitle = eventData['event_title'];
-                    var person_id = eventData['person_id'].toString();
-                    var email = eventData['email'];
-                    var attending = eventData['attending'].toString();
+                    var data = jsonDecode(snapshot.data.body);
+                    if (data.length == 0) {
+                      return Center(
+                        child: Text("You have not been invited to any event."),
+                      );
+                    }
                     return Container(
+                      margin: EdgeInsets.only(top: 55, left: 30),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
-                            padding: EdgeInsets.only(left: 40),
-                            child: Row(
+                            margin: EdgeInsets.only(top: 10),
+                            child: Column(
                               children: [
                                 Text(
-                                  "Event:",
-                                  style: TextStyle(fontSize: 18),
+                                  "Invited To",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                Text(
-                                  eventTitle,
-                                  style: TextStyle(fontSize: 18),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "EventID:",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Text(
-                                  event_id,
-                                  style: TextStyle(fontSize: 18),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "PersonID:",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Text(
-                                  person_id,
-                                  style: TextStyle(fontSize: 18),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Email:",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Text(
-                                  email,
-                                  style: TextStyle(fontSize: 18),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Attending:",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Text(
-                                  attending,
-                                  style: TextStyle(fontSize: 18),
-                                )
+                                // for (var i in text) Text(i.toString()),
+                                for (var i = 0; i < data.length; i++)
+                                  (RsvpCard(
+                                      data[i]['event_title'],
+                                      data[i]['details'],
+                                      data[i]['date'],
+                                      data[i]['attending'])),
                               ],
                             ),
                           ),
