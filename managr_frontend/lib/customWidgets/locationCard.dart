@@ -5,9 +5,10 @@ import 'package:managr_frontend/colors.dart';
 class LocationCard extends StatefulWidget {
   var imageString;
   var locationName;
+  Color color;
   int capacity;
 
-  LocationCard(this.imageString, this.locationName, this.capacity);
+  LocationCard(this.imageString, this.locationName, this.capacity, this.color);
 
   @override
   _LocationCardState createState() => _LocationCardState();
@@ -25,7 +26,7 @@ class _LocationCardState extends State<LocationCard> {
       child: GestureDetector(
         child: Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          color: Colors.deepOrange[200],
+          color: widget.color,
           child: Container(
             width: screenWidth / 1.8,
             height: screenHeight / 2,

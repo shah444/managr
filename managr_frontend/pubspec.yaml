@@ -28,6 +28,7 @@ dependencies:
   firebase_core: ^0.7.0
   firebase_storage: ^7.0.0
   shared_preferences: ^0.5.12+4
+  fluttertoast: ^7.1.1
   
 
 
