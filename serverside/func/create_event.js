@@ -29,7 +29,7 @@ process.on("message", message => {
 });
 
 const createEvent = (data, connection) => {
-    var evdate = data.evdate;
+    var evdate = new Date(data.evdate).toISOString().slice(0, 19).replace('T', ' ');
     var room_id = data.room_id;
     var event_title = data.event_title;
     var details = data.details;
