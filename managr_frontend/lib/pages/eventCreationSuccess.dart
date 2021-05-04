@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:managr_frontend/colors.dart';
+import 'package:managr_frontend/pages/homepage.dart';
 
 class EventCreationSuccess extends StatefulWidget {
   @override
@@ -46,6 +47,22 @@ class _EventCreationSuccessState extends State<EventCreationSuccess> {
                     clipBehavior: Clip.antiAlias,
                     child: Text("Invite Guests"),
                     onPressed: () async {
+                    },
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 20),
+                child: ButtonTheme(
+                  buttonColor: buttonColor,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  minWidth: screenWidth / 5,
+                  child: RaisedButton(
+                    elevation: 2,
+                    clipBehavior: Clip.antiAlias,
+                    child: Text("Back to home page"),
+                    onPressed: () async {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                     },
                   ),
                 ),

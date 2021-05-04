@@ -51,20 +51,25 @@ class _CreateEventState extends State<CreateEvent> {
     var url = "http://managr-server.herokuapp.com/event";
     var eventDetails = JsonEncoder().convert(
       {
-        "host_id": prefs.getString('userID'),
+        "host_id": prefs.getInt('userID'),
         "evdate": dateString,
         "room_id": chosenRoomID,
         "event_title": eventTitleController.text,
         "details": eventDescriptionController.text,
       }
     );
-    http.Response resp = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: eventDetails
-    );
+    http.Response resp;
+    try {
+      resp = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: eventDetails
+      );
+    } catch(e) {
+      print("error: " + e.toString());
+    }
 
     if (resp.statusCode == 200) {
       print("Event information added into the database successfully");
@@ -430,7 +435,7 @@ class _CreateEventState extends State<CreateEvent> {
                                       fontSize: 18
                                     );
                                   } else {
-                                    // await createEvent();
+                                    await createEvent();
                                     Navigator.push(context, MaterialPageRoute(builder: (context) => EventCreationSuccess()));
                                   }
                                 },
