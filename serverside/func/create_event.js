@@ -9,6 +9,7 @@ process.on("message", message => {
         console.log('Database connection established.');
         console.log(message);
         var data = {
+            host_id: message.host_id,
             evdate: message.date,
             room_id: message.room_id,
             event_title: message.event_title,
@@ -33,9 +34,10 @@ const createEvent = (data, connection) => {
     var room_id = data.room_id;
     var event_title = data.event_title;
     var details = data.details;
+    var host_id = data.host_id;
     var event_id = Math.floor(Math.random() * 10000);
     var query1 = `SELECT * FROM events WHERE event_id = '${event_id}' OR (date='${evdate}' AND room_id='${room_id}');`
-    var query2 = `INSERT INTO events (event_id, date, host_id, room_id, event_title, details, invited_count, accepted_count, cancel) VALUES (${event_id}, '${evdate}', 1, ${room_id}, '${event_title}', '${details}', 0, 0, 0);`
+    var query2 = `INSERT INTO events (event_id, date, host_id, room_id, event_title, details, invited_count, accepted_count, cancel) VALUES (${event_id}, '${evdate}', ${host_id}, ${room_id}, '${event_title}', '${details}', 0, 0, 0);`
     return new Promise(async (resolve, reject) => {
         connection.query(query1, (err, result) => {
             if (err) {
