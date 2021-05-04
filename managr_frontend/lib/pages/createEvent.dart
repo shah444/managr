@@ -52,7 +52,7 @@ class _CreateEventState extends State<CreateEvent> {
     var eventDetails = JsonEncoder().convert(
       {
         "host_id": prefs.getInt('userID'),
-        "evdate": dateString,
+        "date": dateString,
         "room_id": chosenRoomID,
         "event_title": eventTitleController.text,
         "details": eventDescriptionController.text,
