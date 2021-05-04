@@ -86,7 +86,19 @@ if (cluster.isMaster) {
         handleCreateAccount.on("message", message => res.send(message));
     })
 
+    app.route("/daysAvailability")
+    .get((req, res) => {
+        const handleGetAvailability = fork("./func/get_available_days.js");
+        handleGetAvailability.send({});
+        handleGetAvailability.on("message", message => res.send(message));
+    });
 
-
-
+    app.route("/roomsAvailability")
+    .get((req, res) => {
+        const handleGetRoomsAvailability = fork("./func/get_available_rooms.js");
+        handleGetRoomsAvailability.send({
+            date: req.query.date
+        });
+        handleGetRoomsAvailability.on("message", message => res.send(message));
+    });
 }
