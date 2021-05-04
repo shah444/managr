@@ -53,7 +53,7 @@ class _RsvpCardState extends State<RsvpCard> {
                 Container(
                     margin: EdgeInsets.only(top: 20),
                     child: Text(
-                      "Invited Count: " + widget.rsvp.toString(),
+                      "RSVP: " + widget.rsvp.toString(),
                       style: TextStyle(
                           fontSize: 15, fontWeight: FontWeight.normal),
                     )),
