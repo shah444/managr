@@ -36,9 +36,7 @@ if (cluster.isMaster) {
         };
         handleGetEvent.send(data);
         handleGetEvent.on("message", message => res.send(message));
-    });
-
-    app.route("/createevent/:id?")
+    })
     .post(jsonparser, (req, res) => {
         const handleCreateEvent = fork("./func/create_event.js");
         console.log(req.body);
