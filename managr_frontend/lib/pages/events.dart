@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:managr_frontend/colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:managr_frontend/customWidgets/eventCard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Events extends StatefulWidget {
@@ -12,7 +13,6 @@ class Events extends StatefulWidget {
 
 class _EventsState extends State<Events> {
   SharedPreferences prefs;
-
   Future<http.Response> getEvent() async {
     prefs = await SharedPreferences.getInstance();
     int userID = prefs.getInt('userID');
@@ -34,111 +34,50 @@ class _EventsState extends State<Events> {
         elevation: 0,
       ),
       body: Container(
-        child: Center(
-            child: FutureBuilder(
-                future: getEvent(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    var data = jsonDecode(snapshot.data.body);
-                    if (data.length == 0) {
-                      return Center(
-                        child: Text("You do not have any scheduled events."),
-                      );
-                    }
-                    var eventData = data[0];
-                    var eventTitle = eventData['event_title'];
-                    var date = eventData['date'];
-                    var room_id = eventData['room_id'].toString();
-                    var eventDetails = eventData['details'];
-                    var invited_count = eventData['invited_count'].toString();
-                    return Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Event:",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Text(
-                                  eventTitle,
-                                  style: TextStyle(fontSize: 18),
-                                )
-                              ],
+        child: FutureBuilder(
+            future: getEvent(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var data = jsonDecode(snapshot.data.body);
+                if (data.length == 0) {
+                  return Center(
+                    child: Text("You do not have any scheduled events."),
+                  );
+                }
+
+                return Container(
+                  margin: EdgeInsets.only(top: 55, left: 30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Column(
+                          children: [
+                            Text(
+                              "My Created Events",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Details:",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Text(
-                                  eventDetails,
-                                  style: TextStyle(fontSize: 18),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Creation Date:",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Text(
-                                  date,
-                                  style: TextStyle(fontSize: 18),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Room ID:",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Text(
-                                  room_id,
-                                  style: TextStyle(fontSize: 18),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Invited Guests:",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                Text(
-                                  invited_count,
-                                  style: TextStyle(fontSize: 18),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
+                            // for (var i in text) Text(i.toString()),
+                            for (var i = 0; i < data.length; i++)
+                              (EventCard(
+                                  data[i]['event_title'],
+                                  data[i]['details'],
+                                  data[i]['date'],
+                                  data[i]['invited_count'])),
+                          ],
+                        ),
                       ),
-                    );
-                  } else {
-                    return CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(onboardingStart),
-                    );
-                  }
-                })),
+                    ],
+                  ),
+                );
+              } else {
+                return CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(onboardingStart),
+                );
+              }
+            }),
       ),
     );
   }
