@@ -18,7 +18,7 @@ class _InviteUsersState extends State<InviteUsers> {
   Future<void> inviteUsers() async {
     var email = emailController.text;
 
-    var url = "http://managr-server.herokuapp.com/invitelist";
+    var url = "http://managr-server.herokuapp.com/invitation";
     var accDetails = JsonEncoder().convert({"email": emailController.text});
     http.Response resp = await http.post(url,
         headers: {
