@@ -82,6 +82,16 @@ if (cluster.isMaster) {
         handleGetEvent.on("message", message => res.send(message));
     });
 
+    app.route("/invitedTo")
+    .get((req, res) => {
+        const handleGetInvitedTo = fork("./func/get_people_invited.js");
+        var data = {
+            event_id: req.query.event_id
+        };
+        handleGetInvitedTo.send(data);
+        handleGetInvitedTo.on("message", message => res.send(message));
+    })
+
     app.route("/rsvp")
     .get((req, res) => {
         const handleGetEvent = fork("./func/get_upcoming_event.js");
