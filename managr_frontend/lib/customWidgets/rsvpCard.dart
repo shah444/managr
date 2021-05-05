@@ -39,7 +39,7 @@ class _RsvpCardState extends State<RsvpCard> {
         body: accDetails);
 
     if (resp.statusCode == 200) {
-      print("User information added into the database successfully");
+      print("RSVP information updated in the database successfully");
     }
   }
 

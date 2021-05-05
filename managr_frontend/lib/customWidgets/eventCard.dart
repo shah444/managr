@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:managr_frontend/pages/editEvent.dart';
 import 'package:managr_frontend/pages/invitedGuests.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class EventCard extends StatefulWidget {
   var event_id;
@@ -18,6 +22,23 @@ class EventCard extends StatefulWidget {
 }
 
 class _EventCardState extends State<EventCard> {
+  SharedPreferences prefs;
+  ValueNotifier<String> name = new ValueNotifier<String>("");
+
+  Future<void> rsvpUpdate() async {
+    prefs = await SharedPreferences.getInstance();
+    int eventID = widget.event_id;
+    var person_id = prefs.getString('name');
+    var url = "http://managr-server.herokuapp.com/event";
+    print("event ID is " + eventID.toString());
+    //var accDetails = JsonEncoder().convert({"event_id": eventID, "person_id": person_id});
+    http.Response resp = await http.put(url);
+
+    if (resp.statusCode == 200) {
+      print("User information added into the database successfully");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
