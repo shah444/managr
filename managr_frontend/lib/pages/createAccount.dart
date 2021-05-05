@@ -43,9 +43,10 @@ class _CreateAccountState extends State<CreateAccount> {
   addToFirebase(String email, String password, String confirmPassword) {
     if (password == confirmPassword) {
       final FirebaseAuth auth = FirebaseAuth.instance;
-      auth.createUserWithEmailAndPassword(email: email, password: password).then((value) => {
-        print("Account successfully created!")
-      }).catchError((onError) {
+      auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => {print("Account successfully created!")})
+          .catchError((onError) {
         print("Error creating account: $onError");
       });
     } else {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,15 +21,24 @@ class RsvpCard extends StatefulWidget {
 
 class _RsvpCardState extends State<RsvpCard> {
   SharedPreferences prefs;
-  Future<http.Response> rsvpUpdate() async {
+  Future<void> rsvpUpdate() async {
     prefs = await SharedPreferences.getInstance();
     int RSVP = widget.rsvp;
-    var url =
-        "http://managr-server.herokuapp.com/rsvp?attending=" + RSVP.toString();
+    var person_id = "9039";
+    var event_id = "2";
+    var url = "http://managr-server.herokuapp.com/rsvp";
     print("RSVP status is " + RSVP.toString());
-    http.Response resp = await http.put(url);
-    print("response body is ${resp.body}");
-    return resp;
+    var accDetails =
+        JsonEncoder().convert({"event_id": event_id, "person_id": person_id});
+    http.Response resp = await http.put(url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: accDetails);
+
+    if (resp.statusCode == 200) {
+      print("User information added into the database successfully");
+    }
   }
 
   @override
