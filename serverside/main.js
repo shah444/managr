@@ -37,6 +37,12 @@ if (cluster.isMaster) {
         handleGetEvent.send(data);
         handleGetEvent.on("message", message => res.send(message));
     })
+    .put(jsonparser, (req, res) => {
+        const handleEditEvent = fork("./func/edit_event.js");
+        console.log(req.body);
+        handleEditEvent.send(req.body);
+        handleEditEvent.on("message", message => res.send(message));
+    })
     .post(jsonparser, (req, res) => {
         const handleCreateEvent = fork("./func/create_event.js");
         console.log(req.body);
@@ -75,6 +81,16 @@ if (cluster.isMaster) {
         handleGetEvent.send(data);
         handleGetEvent.on("message", message => res.send(message));
     });
+
+    app.route("/invitedTo")
+    .get((req, res) => {
+        const handleGetInvitedTo = fork("./func/get_people_invited.js");
+        var data = {
+            event_id: req.query.event_id
+        };
+        handleGetInvitedTo.send(data);
+        handleGetInvitedTo.on("message", message => res.send(message));
+    })
 
     app.route("/rsvp")
     .get((req, res) => {
