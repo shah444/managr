@@ -106,9 +106,7 @@ class _RsvpCardState extends State<RsvpCard> {
                           RaisedButton(
                             child: new Text(Attend),
                             textColor: Colors.white,
-                            // 2
                             color: widget.rsvp == 0 ? Colors.green : Colors.red,
-                            // 3
                             onPressed: () async {
                               await rsvpUpdate();
                               Navigator.pop(context);
