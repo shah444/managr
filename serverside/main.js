@@ -107,4 +107,12 @@ if (cluster.isMaster) {
         });
         handleGetRoomsAvailability.on("message", message => res.send(message));
     });
+
+    app.route("/updateDisplayName")
+    .put(jsonparser, (req, res) => {
+        const handleUpdateDisplayName = fork("./func/update_display_name.js");
+        console.log(req.body);
+        handleUpdateDisplayName.send(req.body);
+        handleUpdateDisplayName.on("message", message => res.send(message));
+    });
 }
