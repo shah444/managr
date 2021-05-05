@@ -19,13 +19,13 @@ class RsvpCard extends StatefulWidget {
 
 class _RsvpCardState extends State<RsvpCard> {
   SharedPreferences prefs;
-  Future<http.Response> getEvent() async {
+  Future<http.Response> rsvpUpdate() async {
     prefs = await SharedPreferences.getInstance();
-    int userID = prefs.getInt(widget.rsvp);
-    var url = "http://managr-server.herokuapp.com/invitation?attending=" +
-        userID.toString();
-    print("userID is " + userID.toString());
-    http.Response resp = await http.get(url);
+    int RSVP = widget.rsvp;
+    var url =
+        "http://managr-server.herokuapp.com/rsvp?attending=" + RSVP.toString();
+    print("RSVP status is " + RSVP.toString());
+    http.Response resp = await http.put(url);
     print("response body is ${resp.body}");
     return resp;
   }
@@ -98,10 +98,9 @@ class _RsvpCardState extends State<RsvpCard> {
                             // 2
                             color: widget.rsvp == 0 ? Colors.green : Colors.red,
                             // 3
-                            onPressed: () => {
-                              setState(() {
-                                _hasBeenPressed = !_hasBeenPressed;
-                              })
+                            onPressed: () async {
+                              await rsvpUpdate();
+                              Navigator.pop(context);
                             },
                           )
                         ])),
