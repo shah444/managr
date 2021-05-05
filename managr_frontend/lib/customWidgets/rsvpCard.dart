@@ -11,9 +11,11 @@ class RsvpCard extends StatefulWidget {
   var rsvp;
   var building;
   var room;
+  var eventID;
+  var personID;
 
   RsvpCard(this.eventTitle, this.eventDetails, this.date, this.building,
-      this.room, this.rsvp);
+      this.room, this.rsvp, this.eventID, this.personID);
 
   @override
   _RsvpCardState createState() => _RsvpCardState();
@@ -24,8 +26,8 @@ class _RsvpCardState extends State<RsvpCard> {
   Future<void> rsvpUpdate() async {
     prefs = await SharedPreferences.getInstance();
     int RSVP = widget.rsvp;
-    var person_id = "9039";
-    var event_id = "2";
+    var person_id = widget.personID;
+    var event_id = widget.eventID;
     var url = "http://managr-server.herokuapp.com/rsvp";
     print("RSVP status is " + RSVP.toString());
     var accDetails =
