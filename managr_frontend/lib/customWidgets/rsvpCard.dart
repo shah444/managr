@@ -45,8 +45,8 @@ class _RsvpCardState extends State<RsvpCard> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
+    var Attend = widget.rsvp == 0 ? "Attend Event" : "Cancel RSVP";
 
-    var _hasBeenPressed = false;
     return Container(
       child: GestureDetector(
         child: Card(
@@ -104,7 +104,7 @@ class _RsvpCardState extends State<RsvpCard> {
                                 fontSize: 15, fontWeight: FontWeight.normal),
                           ),
                           RaisedButton(
-                            child: new Text('Attend Event'),
+                            child: new Text(Attend),
                             textColor: Colors.white,
                             // 2
                             color: widget.rsvp == 0 ? Colors.green : Colors.red,
