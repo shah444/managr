@@ -76,8 +76,10 @@ class _InvitationState extends State<Invitations> {
                   ),
                 );
               } else {
-                return CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(onboardingStart),
+                return Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(onboardingStart),
+                  ),
                 );
               }
             }),
