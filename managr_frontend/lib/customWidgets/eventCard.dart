@@ -139,7 +139,7 @@ class _EventCardState extends State<EventCard> {
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   RaisedButton(
-                    child: new Text("Delete Event"),
+                    child: new Text("Cancel Event"),
                     textColor: Colors.white,
                     color: Colors.red,
                     onPressed: () async {
