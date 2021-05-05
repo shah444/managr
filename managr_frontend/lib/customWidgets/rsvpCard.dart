@@ -99,7 +99,7 @@ class _RsvpCardState extends State<RsvpCard> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "RSVP: " + widget.rsvp.toString(),
+                            "RSVP: ",
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.normal),
                           ),
