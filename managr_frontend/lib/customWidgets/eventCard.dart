@@ -29,7 +29,7 @@ class _EventCardState extends State<EventCard> {
 
   void deleteEvent() async {
     prefs = await SharedPreferences.getInstance();
-    var url = "http://managr-server.herokuapp.com/event/:" +
+    var url = "http://managr-server.herokuapp.com/event/" +
         widget.event_id.toString() +
         "?";
     http.delete(url).then((value) {
