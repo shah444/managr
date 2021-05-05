@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:managr_frontend/pages/editEvent.dart';
+import 'package:managr_frontend/pages/invitedGuests.dart';
 
 class EventCard extends StatefulWidget {
   var event_id;
@@ -9,7 +10,8 @@ class EventCard extends StatefulWidget {
   var date;
   var invitedCount;
 
-  EventCard(this.event_id, this.eventTitle, this.eventDetails, this.date, this.invitedCount);
+  EventCard(this.event_id, this.eventTitle, this.eventDetails, this.date,
+      this.invitedCount);
 
   @override
   _EventCardState createState() => _EventCardState();
@@ -20,9 +22,9 @@ class _EventCardState extends State<EventCard> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
-    
+
     var givenDate = DateTime.parse(widget.date);
-    final DateFormat dateFormat = DateFormat.yMMMMd('en_US') ;
+    final DateFormat dateFormat = DateFormat.yMMMMd('en_US');
     String date = dateFormat.format(givenDate);
 
     return Container(
@@ -41,20 +43,44 @@ class _EventCardState extends State<EventCard> {
                     flex: 7,
                     child: Center(
                       child: Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Text(
-                          "Title: " + widget.eventTitle.toString(),
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                        )
-                      ),
+                          margin: EdgeInsets.only(top: 20),
+                          child: Text(
+                            "Title: " + widget.eventTitle.toString(),
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          )),
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: Container(
-                      child: IconButton(icon: Icon(Icons.edit), onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditEvent(widget.event_id, widget.eventTitle, widget.eventDetails, date, widget.invitedCount)));
-                      }),
+                      child: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditEvent(
+                                        widget.event_id,
+                                        widget.eventTitle,
+                                        widget.eventDetails,
+                                        date,
+                                        widget.invitedCount)));
+                          }),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      child: IconButton(
+                          icon: Icon(Icons.people),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        InvitedGuests(widget.event_id)));
+                          }),
                     ),
                   ),
                 ],
@@ -63,22 +89,22 @@ class _EventCardState extends State<EventCard> {
                   margin: EdgeInsets.only(top: 20),
                   child: Text(
                     "Details: " + widget.eventDetails.toString(),
-                    style: TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.normal),
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                   )),
               Container(
                   margin: EdgeInsets.only(top: 20),
                   child: Text(
                     "Date: " + date.toString(),
-                    style: TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.normal),
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                   )),
               Container(
                   margin: EdgeInsets.only(top: 20),
                   child: Text(
                     "Invited Count: " + widget.invitedCount.toString(),
-                    style: TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.normal),
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                   )),
             ],
           ),

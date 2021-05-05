@@ -100,11 +100,6 @@ class _RsvpCardState extends State<RsvpCard> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "RSVP: ",
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.normal),
-                          ),
                           RaisedButton(
                             child: new Text(Attend),
                             textColor: Colors.white,
