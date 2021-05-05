@@ -13,9 +13,10 @@ class EventCard extends StatefulWidget {
   var eventDetails;
   var date;
   var invitedCount;
+  var hostID;
 
   EventCard(this.event_id, this.eventTitle, this.eventDetails, this.date,
-      this.invitedCount);
+      this.invitedCount, this.hostID);
 
   @override
   _EventCardState createState() => _EventCardState();
@@ -24,12 +25,24 @@ class EventCard extends StatefulWidget {
 class _EventCardState extends State<EventCard> {
   SharedPreferences prefs;
   ValueNotifier<String> name = new ValueNotifier<String>("");
+  var eventID;
 
-  Future<void> rsvpUpdate() async {
+  Future<void> getHostEvents() async {
     prefs = await SharedPreferences.getInstance();
-    int eventID = widget.event_id;
+    eventID = widget.event_id;
     var person_id = prefs.getString('name');
-    var url = "http://managr-server.herokuapp.com/event";
+    var url = "http://managr-server.herokuapp.com/event/" + person_id + "?";
+    print("event ID is " + eventID.toString());
+    //var accDetails = JsonEncoder().convert({"event_id": eventID, "person_id": person_id});
+    http.Response resp = await http.get(url);
+    print("response body is ${resp.body}");
+  }
+
+  Future<void> cancelEvent() async {
+    prefs = await SharedPreferences.getInstance();
+    eventID = widget.event_id;
+    var person_id = prefs.getString('name');
+    var url = "http://managr-server.herokuapp.com/event/" + person_id + "?";
     print("event ID is " + eventID.toString());
     //var accDetails = JsonEncoder().convert({"event_id": eventID, "person_id": person_id});
     http.Response resp = await http.put(url);
