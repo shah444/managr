@@ -28,7 +28,7 @@ if (cluster.isMaster) {
     const fork = require('child_process').fork;
 
     // User endpoints
-    app.route("/event")
+    app.route("/event/:id?")
     .get((req, res) => {
         const handleGetEvent = fork("./func/get_event.js");
         var data = {
@@ -48,6 +48,12 @@ if (cluster.isMaster) {
         console.log(req.body);
         handleCreateEvent.send(req.body);
         handleCreateEvent.on("message", message => res.send(message));
+    })
+    .delete(jsonparser, (req, res) => {
+        const handleDeleteAccount = fork("./func/delete_event.js");
+        console.log("delete event" + req.params.id);
+        handleDeleteAccount.send(req.params);
+        handleDeleteAccount.on("message", message => res.send(message));
     });
 
     app.route("/account/:id?")
