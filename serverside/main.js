@@ -86,6 +86,12 @@ if (cluster.isMaster) {
         };
         handleGetEvent.send(data);
         handleGetEvent.on("message", message => res.send(message));
+    })
+    .post(jsonparser, (req, res) => {
+        const handleCreateAccount = fork("./func/invite_user.js");
+        console.log(req.body);
+        handleCreateAccount.send(req.body);
+        handleCreateAccount.on("message", message => res.send(message));
     });
 
     app.route("/invitedTo")
