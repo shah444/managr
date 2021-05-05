@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:managr_frontend/colors.dart';
 import 'package:managr_frontend/data_models/deleteUser.dart';
 import 'package:managr_frontend/pages/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class Profile extends StatefulWidget {
   @override
@@ -31,8 +34,26 @@ class _ProfileState extends State<Profile> {
     print("email is " + email.toString());
   }
 
-  updateName() {
-    name.value = displayNameController.text;
+  updateName() async {
+    var url = "http://managr-server.herokuapp.com/updateDisplayName";
+    var newData = JsonEncoder().convert({
+      "user_id": prefs.getInt('userID'),
+      "displayName": displayNameController.text
+    });
+
+    http.Response response = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: newData
+    );
+
+    if (response.statusCode == 200) {
+      print("displayName updated successfully!");
+    } else {
+      print("error: displayName not updated successfully!");
+    }
   }
 
   @override
@@ -448,15 +469,16 @@ class _ProfileState extends State<Profile> {
                       color: buttonColor,
                       onPressed: () async {
                         if (displayNameController.text == "") {
-                          // Fluttertoast.showToast(
-                          //   msg: "Please enter your display name",
-                          //   toastLength: Toast.LENGTH_SHORT,
-                          //   gravity: ToastGravity.BOTTOM,
-                          //   backgroundColor: Colors.grey,
-                          //   textColor: Colors.white,
-                          //   fontSize: 18
-                          // );
+                          Fluttertoast.showToast(
+                            msg: "Please enter your display name",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.grey,
+                            textColor: Colors.white,
+                            fontSize: 18
+                          );
                         } else {
+                          await updateName();
                           profilePageController.jumpToPage(0);
                           name.value = displayNameController.text;
                         }
