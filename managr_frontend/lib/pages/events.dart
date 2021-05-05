@@ -90,7 +90,7 @@ class _EventsState extends State<Events> {
                                           data[index]['details'],
                                           data[index]['date'],
                                           data[index]['invited_count'],
-                                          data['host_id']);
+                                          data[index]['host_id']);
                                     },
                                   );
                                 }

@@ -24,32 +24,25 @@ class EventCard extends StatefulWidget {
 
 class _EventCardState extends State<EventCard> {
   SharedPreferences prefs;
-  ValueNotifier<String> name = new ValueNotifier<String>("");
-  var eventID;
+  ValueNotifier<String> id = new ValueNotifier<String>("");
+  var userID;
 
-  Future<void> getHostEvents() async {
+  void deleteEvent() async {
     prefs = await SharedPreferences.getInstance();
-    eventID = widget.event_id;
-    var person_id = prefs.getString('name');
-    var url = "http://managr-server.herokuapp.com/event/" + person_id + "?";
-    print("event ID is " + eventID.toString());
-    //var accDetails = JsonEncoder().convert({"event_id": eventID, "person_id": person_id});
-    http.Response resp = await http.get(url);
-    print("response body is ${resp.body}");
+    var url = "http://managr-server.herokuapp.com/event/:" +
+        widget.event_id.toString();
+    http.delete(url).then((value) {
+      print(value.body);
+      print("delete successful!");
+    }).catchError((onError) {
+      print("event deletion failed due to an error: " + onError.toString());
+    });
   }
 
-  Future<void> cancelEvent() async {
+  void getUserInfo() async {
     prefs = await SharedPreferences.getInstance();
-    eventID = widget.event_id;
-    var person_id = prefs.getString('name');
-    var url = "http://managr-server.herokuapp.com/event/" + person_id + "?";
-    print("event ID is " + eventID.toString());
-    //var accDetails = JsonEncoder().convert({"event_id": eventID, "person_id": person_id});
-    http.Response resp = await http.put(url);
-
-    if (resp.statusCode == 200) {
-      print("User information added into the database successfully");
-    }
+    userID.value = prefs.getString('userID');
+    print("userID is " + userID.toString());
   }
 
   @override
@@ -67,7 +60,7 @@ class _EventCardState extends State<EventCard> {
         color: Colors.deepOrange[200],
         child: Container(
           width: screenWidth / 1.2,
-          height: screenHeight / 3.5,
+          height: screenHeight / 2.5,
           padding: EdgeInsets.all(10),
           child: Column(
             children: [
@@ -140,6 +133,22 @@ class _EventCardState extends State<EventCard> {
                     style:
                         TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                   )),
+              //if (widget.hostID == userID)
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  RaisedButton(
+                    child: new Text("Delete Event"),
+                    textColor: Colors.white,
+                    color: Colors.red,
+                    onPressed: () async {
+                      await deleteEvent();
+                      Navigator.pop(context);
+                    },
+                  ),
+                ]),
+              ),
             ],
           ),
         ),

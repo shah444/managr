@@ -12,7 +12,8 @@ class EditEvent extends StatefulWidget {
   var date;
   var invitedCount;
 
-  EditEvent(this.eventID, this.eventTitle, this.eventDetails, this.date, this.invitedCount);
+  EditEvent(this.eventID, this.eventTitle, this.eventDetails, this.date,
+      this.invitedCount);
 
   @override
   _EditEventState createState() => _EditEventState();
@@ -31,13 +32,8 @@ class _EditEventState extends State<EditEvent> {
       "event_details": eventDetailsController.text
     });
 
-    http.Response resp = await http.put(
-      url,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: updatedInfo
-    );
+    http.Response resp = await http.put(url,
+        headers: {'Content-Type': 'application/json'}, body: updatedInfo);
 
     if (resp.statusCode == 200) {
       print("Successfully updated event information.");
@@ -80,14 +76,20 @@ class _EditEventState extends State<EditEvent> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 100),
-                child: Text("Event Information", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                child: Text(
+                  "Event Information",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
               ),
               Container(
                 padding: EdgeInsets.only(top: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Event Title: ", style: TextStyle(fontSize: 20),),
+                    Text(
+                      "Event Title: ",
+                      style: TextStyle(fontSize: 20),
+                    ),
                     Container(
                       width: screenWidth / 2,
                       height: screenHeight / 20,
@@ -96,10 +98,11 @@ class _EditEventState extends State<EditEvent> {
                         textAlign: TextAlign.start,
                         controller: eventTitleController,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                          contentPadding: EdgeInsets.only(top: screenHeight / 40, left: screenWidth / 40),
-                          hintText: "Event Title"
-                        ),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            contentPadding: EdgeInsets.only(
+                                top: screenHeight / 40, left: screenWidth / 40),
+                            hintText: "Event Title"),
                       ),
                     )
                   ],
@@ -113,7 +116,10 @@ class _EditEventState extends State<EditEvent> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 25, bottom: 10),
-                      child: Text("Event Details: ", style: TextStyle(fontSize: 20),),
+                      child: Text(
+                        "Event Details: ",
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                     Container(
                       width: screenWidth / 1.1,
@@ -123,9 +129,9 @@ class _EditEventState extends State<EditEvent> {
                         textAlign: TextAlign.start,
                         controller: eventDetailsController,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                          hintText: "Event Details"
-                        ),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            hintText: "Event Details"),
                       ),
                     )
                   ],
@@ -144,15 +150,18 @@ class _EditEventState extends State<EditEvent> {
                 child: Center(
                   child: ButtonTheme(
                     buttonColor: buttonColor,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
                     minWidth: screenWidth / 5,
                     child: RaisedButton(
-                      child: Text("Save"),
-                      onPressed: () async {
-                        await updateEventInformation();
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Events()));
-                      }
-                    ),
+                        child: Text("Save"),
+                        onPressed: () async {
+                          await updateEventInformation();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Events()));
+                        }),
                   ),
                 ),
               )
