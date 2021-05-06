@@ -65,7 +65,7 @@ const inviteUser = (data, connection) => {
                        // result2 = JSON.parse(result2);
                         var event_title = String(result2[0].event_title);
                         console.log(event_title);
-                        var query4 = `INSERT INTO invitelist (event_id, event_title, person_id, email) VALUES (${event_id},${event_title},${person_id},${email})`;
+                        var query4 = `INSERT INTO invitelist (event_id, event_title, person_id, email) VALUES ('${event_id}','${event_title}','${person_id}','${email}')`;
                         await connection.query(query4, async(err3, result3) => {
                             if(err3){
                                 console.log(err3);
