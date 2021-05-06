@@ -80,8 +80,8 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: Container(
-          padding:
-              EdgeInsets.only(top: screenHeight / 20, bottom: screenHeight / 20),
+          padding: EdgeInsets.only(
+              top: screenHeight / 20, bottom: screenHeight / 20),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -127,10 +127,6 @@ class _HomePageState extends State<HomePage> {
                               ListTile(
                                 leading: Icon(Icons.arrow_drop_down_circle),
                                 title: Text('Upcoming Event: ' + eventTitle),
-                                //subtitle: Text(
-                                //   eventTitle,
-                                //style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                                //),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 16.0),
