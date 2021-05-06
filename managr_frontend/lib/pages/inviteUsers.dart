@@ -14,13 +14,13 @@ class InviteUsers extends StatefulWidget {
 class _InviteUsersState extends State<InviteUsers> {
   TextEditingController emailController = new TextEditingController();
   SharedPreferences prefs;
-
+  var eventID;
   void getEventID() async {
     prefs = await SharedPreferences.getInstance();
     int userID = prefs.getInt('userID');
     int roomID = prefs.getInt('roomID');
 
-    var url = "http://localhost:23556/host/?host_id=" +
+    var url = "http://managr-server.herokuapp.com/host/?host_id=" +
         userID.toString() +
         "&date=" +
         prefs.getString('date') +
@@ -29,17 +29,21 @@ class _InviteUsersState extends State<InviteUsers> {
     print(url);
     http.Response resp = await http.get(url);
     print("response body is ${resp.body}");
+    var data = jsonDecode(resp.body);
+    eventID = data[0]['event_id'];
+    print(eventID);
+    //eventID = resp.body[0];
   }
 
   Future<void> inviteUsers() async {
     SharedPreferences prefs;
 
     var email = emailController.text;
-    var eventID;
-    print(prefs.getString('event_id'));
+    print(eventID);
 
     var url = "http://managr-server.herokuapp.com/invitation";
-    /*var accDetails = JsonEncoder().convert({"event_id": ,"email": emailController.text});
+    var accDetails = JsonEncoder().convert(
+        {"event_id": eventID.toString(), "email": emailController.text});
     http.Response resp = await http.post(url,
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +52,7 @@ class _InviteUsersState extends State<InviteUsers> {
 
     if (resp.statusCode == 200) {
       print("User information added into the database successfully");
-    }*/
+    }
   }
 
   @override
