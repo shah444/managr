@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../colors.dart';
 import 'package:http/http.dart' as http;
@@ -141,6 +142,14 @@ class _CreateAccountState extends State<CreateAccount> {
                     child: Text("Create Account"),
                     onPressed: () async {
                       await createAccount();
+                      Fluttertoast.showToast(
+                          msg: "User account created successfully!",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.grey,
+                          textColor: Colors.white,
+                          fontSize: 18
+                        );
                       Navigator.pop(context);
                     },
                   ),

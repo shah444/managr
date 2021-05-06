@@ -142,10 +142,6 @@ class _EditEventState extends State<EditEvent> {
                 child: Text(date, style: TextStyle(fontSize: 20)),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 20, left: 50),
-                child: Text(invitedCount, style: TextStyle(fontSize: 20)),
-              ),
-              Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Center(
                   child: ButtonTheme(

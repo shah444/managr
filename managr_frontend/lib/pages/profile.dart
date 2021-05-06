@@ -479,6 +479,7 @@ class _ProfileState extends State<Profile> {
                           );
                         } else {
                           await updateName();
+                          prefs.setString("name", displayNameController.text);
                           profilePageController.jumpToPage(0);
                           name.value = displayNameController.text;
                         }

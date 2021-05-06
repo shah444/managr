@@ -64,10 +64,6 @@ class _EventCreationSuccessState extends State<EventCreationSuccess> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Container(
-                margin: EdgeInsets.only(top: 50),
-                child: Text("Your event currently has 0 invitees."),
-              ),
-              Container(
                 padding: EdgeInsets.only(top: 20),
                 child: ButtonTheme(
                   buttonColor: buttonColor,

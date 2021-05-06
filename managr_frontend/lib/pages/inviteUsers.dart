@@ -53,14 +53,6 @@ class _InviteUsersState extends State<InviteUsers> {
         body: accDetails);
     if (resp.statusCode == 200) {
       print("User information added into the database successfully");
-      Fluttertoast.showToast(
-          msg: "Added User to the database",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
     }
   }
 
@@ -119,6 +111,14 @@ class _InviteUsersState extends State<InviteUsers> {
                     child: Text("Invite Guest to Event"),
                     onPressed: () async {
                       await inviteUsers();
+                      Fluttertoast.showToast(
+                        msg: "Invite Sent!",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.grey,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
                       Navigator.pop(context);
                     },
                   ),

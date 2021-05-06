@@ -128,14 +128,6 @@ class _EventCardState extends State<EventCard> {
                         TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                   )),
               Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Text(
-                    "Invited Count: " + widget.invitedCount.toString(),
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
-                  )),
-              //if (widget.hostID == userID)
-              Container(
                 margin: EdgeInsets.only(top: 20),
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
