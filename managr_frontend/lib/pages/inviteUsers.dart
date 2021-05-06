@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class InviteUsers extends StatefulWidget {
   @override
@@ -30,6 +31,7 @@ class _InviteUsersState extends State<InviteUsers> {
     http.Response resp = await http.get(url);
     print("response body is ${resp.body}");
     var data = jsonDecode(resp.body);
+
     eventID = data[0]['event_id'];
     print(eventID);
     //eventID = resp.body[0];
@@ -49,9 +51,16 @@ class _InviteUsersState extends State<InviteUsers> {
           'Content-Type': 'application/json',
         },
         body: accDetails);
-
     if (resp.statusCode == 200) {
       print("User information added into the database successfully");
+      Fluttertoast.showToast(
+          msg: "Added User to the database",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 
