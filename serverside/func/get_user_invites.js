@@ -16,16 +16,25 @@ process.on("message", message => {
 });
 
 const getUserInvites = (person_id, connection) => {
-    var query = `SELECT rsvp.event_id, rsvp.person_id, rsvp.attending, invitelist.email, invitelist.event_title, events.details, events.room_id, events.date, rooms.building, rooms.room FROM invitelist natural join rsvp join events on (rsvp.event_id=events.event_id) join rooms ON (events.room_id=rooms.room_id) WHERE person_id = ${person_id};`;
+    var query = `call GetUserInvites(${person_id});`;
+    var query1 = `SELECT * FROM GetUserInvites;`;
     return new Promise(async (resolve, reject) => {
-        await connection.query(query, (err, result) => {
+        await connection.query(query, async (err, result) => {
             if (err) {
                 console.log(err.message);
                 reject(err.message);
             }
             result = JSON.stringify(result);
             result = JSON.parse(result);
-            resolve(result);
+            if(result.length==undefined){
+                await connection.query(query1, async (err1, result1) => {
+                    if(err1){
+                        console.log(err1);
+                        reject(err1.message);
+                    }
+                    resolve(result1);
+                });
+            } 
         });
     });
 };
