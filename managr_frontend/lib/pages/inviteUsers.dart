@@ -13,8 +13,23 @@ class InviteUsers extends StatefulWidget {
 
 class _InviteUsersState extends State<InviteUsers> {
   TextEditingController emailController = new TextEditingController();
+  SharedPreferences prefs;
 
-  getEventID() {}
+  void getEventID() async {
+    prefs = await SharedPreferences.getInstance();
+    int userID = prefs.getInt('userID');
+    int roomID = prefs.getInt('roomID');
+
+    var url = "http://localhost:23556/host/?host_id=" +
+        userID.toString() +
+        "&date=" +
+        prefs.getString('date') +
+        "&room=" +
+        roomID.toString();
+    print(url);
+    http.Response resp = await http.get(url);
+    print("response body is ${resp.body}");
+  }
 
   Future<void> inviteUsers() async {
     SharedPreferences prefs;
@@ -34,6 +49,18 @@ class _InviteUsersState extends State<InviteUsers> {
     if (resp.statusCode == 200) {
       print("User information added into the database successfully");
     }*/
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initializeSharedPrefs();
+    getEventID();
+  }
+
+  initializeSharedPrefs() async {
+    prefs = await SharedPreferences.getInstance();
   }
 
   @override

@@ -57,6 +57,9 @@ class _CreateEventState extends State<CreateEvent> {
       "event_title": eventTitleController.text,
       "details": eventDescriptionController.text,
     });
+    prefs.setString('date', dateString);
+    prefs.setInt('roomID', chosenRoomID);
+
     http.Response resp;
     try {
       resp = await http.post(url,
