@@ -26,10 +26,22 @@ const getRooms = (date, connection) => {
     var roomIDString = '';
 
     console.log(dateString);
-
+    var queryT = `SET TRANSACTION ISOLATION LEVEL REPEATABLE READ`;
+    var queryS = `START TRANSACTION`;
+    var queryC = `COMMIT`;
     var query = `SELECT room_id FROM events WHERE date LIKE '${dateString}%'`;
     
     return new Promise(async (resolve, reject) => {
+        await connection.query(queryT, async (errT, result) => {
+            if (errT) {
+                console.log(errT.message);
+                reject(errT.message);
+            }
+            await connection.query(queryS, async (errS, result) => {
+                if (errS) {
+                    console.log(errS.message);
+                    reject(errS.message);
+                }
         await connection.query(query, async (err, result) => {
             if (err) {
                 console.log(err.message);
@@ -53,15 +65,23 @@ const getRooms = (date, connection) => {
                 query1 = `SELECT * FROM rooms WHERE room_id NOT IN (${roomIDString})`;
             }
         
-            await connection.query(query1, (err1, result1) => {
+            await connection.query(query1, async (err1, result1) => {
                 if (err1) {
                     console.log(err1.message);
                     reject(err1.message);
                 }
+                await connection.query(queryC, async (errC, resultC) => {
+                    if (errC) {
+                        console.log(errC.message);
+                        reject(errC.message);
+                    }
                 result1 = JSON.stringify(result1);
                 result1 = JSON.parse(result1);
                 resolve(result1);
             });
+            });
         });
+    });
+});
     });
 };

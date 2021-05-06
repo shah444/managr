@@ -39,13 +39,25 @@ const getAvailability = (connection) => {
         }
         dateString = dateString + ", '" + dates[i] + "'";
     }
-
+    var queryT = `SET TRANSACTION ISOLATION LEVEL REPEATABLE READ`;
+    var queryS = `START TRANSACTION`;
+    var queryC = `COMMIT`;
     var query1 = `SELECT date, COUNT(room_id) FROM events WHERE date in (${dateString}) GROUP BY date`;
 
     var query3 = "SELECT COUNT(*) AS totalRooms FROM rooms"
     var indicesToRemove = [];
 
     return new Promise(async (resolve, reject) => {
+        await connection.query(queryT, async (errT, resultT) => {
+            if (errT) {
+                console.log(errT.message);
+                reject(errT.message);
+            }
+            await connection.query(queryS, async (errS, resultS) => {
+                if (errS) {
+                    console.log(errS.message);
+                    reject(errS.message);
+                }
         await connection.query(query1, async (err, result) => {
             if (err) {
                 console.log(err.message);
@@ -60,7 +72,7 @@ const getAvailability = (connection) => {
                 console.log(result);
                 resolve(result);
             } else {
-                await connection.query(query3, (err1, result1) => {
+                await connection.query(query3, async (err1, result1) => {
                     if (err1) {
                         console.log(err1.message);
                         reject(err1.message);
@@ -83,9 +95,17 @@ const getAvailability = (connection) => {
                     result = {
                         "days": days
                     }
+                    await connection.query(queryS, async (errS, resultS) => {
+                        if (errS) {
+                            console.log(errS.message);
+                            reject(errS.message);
+                        }
                     resolve(result);
+                });
                 });
             }
         });
+    }); 
+});
     });
 };
