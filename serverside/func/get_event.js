@@ -17,6 +17,7 @@ process.on("message", message => {
 
 const getEvent = (event_id, connection) => {
     // var query = `call GetEvents(${event_id});`;
+
     var query = `SELECT * FROM events WHERE host_id = ${event_id};`;
     return new Promise(async (resolve, reject) => {
         await connection.query(query,  (err, result) => {

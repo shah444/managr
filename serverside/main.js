@@ -69,10 +69,6 @@ if (cluster.isMaster) {
         handleGetAvailability.on("message", message => res.send(message));
     });
 
-
-
-
-
     app.route("/account/:id?")
     .get((req, res) => {
         const handleGetAccount = fork('./func/get_account.js');

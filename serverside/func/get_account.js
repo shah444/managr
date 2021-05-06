@@ -20,17 +20,18 @@ process.on("message", message => {
 });
 
 const getEvent = (email, connection) => {
-    var query = `SELECT * FROM users WHERE email = ${email}`;
+    var query = `SELECT * FROM users WHERE email = ${email} ; `;
     return new Promise(async (resolve, reject) => {
-        await connection.query(query, (err, result) => {
+        await connection.query(query, async (err, result) => {
             if (err) {
                 console.log(err.message);
                 reject(err.message);
             }
-            console.log('result is ' + result);
-            result = JSON.stringify(result);
-            result = JSON.parse(result);
-            resolve(result);
+                    console.log('result is ' + result);
+                    result = JSON.stringify(result);
+                    result = JSON.parse(result);
+                    resolve(result);
+
         });
     });
 };
