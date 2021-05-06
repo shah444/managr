@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../colors.dart';
 import 'package:http/http.dart' as http;
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class InviteUsers extends StatefulWidget {
   @override
@@ -16,10 +15,13 @@ class _InviteUsersState extends State<InviteUsers> {
   TextEditingController emailController = new TextEditingController();
 
   Future<void> inviteUsers() async {
+    SharedPreferences prefs;
+
     var email = emailController.text;
+    print(prefs.getString('event_id'));
 
     var url = "http://managr-server.herokuapp.com/invitation";
-    var accDetails = JsonEncoder().convert({"email": emailController.text});
+    /*var accDetails = JsonEncoder().convert({"email": emailController.text});
     http.Response resp = await http.post(url,
         headers: {
           'Content-Type': 'application/json',
@@ -28,7 +30,7 @@ class _InviteUsersState extends State<InviteUsers> {
 
     if (resp.statusCode == 200) {
       print("User information added into the database successfully");
-    }
+    }*/
   }
 
   @override
