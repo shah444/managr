@@ -56,6 +56,23 @@ if (cluster.isMaster) {
         handleDeleteAccount.on("message", message => res.send(message));
     });
 
+    app.route("/host")
+    .get((req, res) => {
+        const handleGetAvailability = fork("./func/get_host_event.js");
+        console.log("date: " + req.query.date);
+        var data = {
+            host_id: req.query.host_id,
+            date: req.query.date,
+            room: req.query.room,
+        };
+        handleGetAvailability.send(data);
+        handleGetAvailability.on("message", message => res.send(message));
+    });
+
+
+
+
+
     app.route("/account/:id?")
     .get((req, res) => {
         const handleGetAccount = fork('./func/get_account.js');
@@ -119,6 +136,7 @@ if (cluster.isMaster) {
         handleCreateAccount.send(req.body);
         handleCreateAccount.on("message", message => res.send(message));
     });
+
 
     app.route("/daysAvailability")
     .get((req, res) => {
