@@ -14,14 +14,17 @@ class InviteUsers extends StatefulWidget {
 class _InviteUsersState extends State<InviteUsers> {
   TextEditingController emailController = new TextEditingController();
 
+  getEventID() {}
+
   Future<void> inviteUsers() async {
     SharedPreferences prefs;
 
     var email = emailController.text;
+    var eventID;
     print(prefs.getString('event_id'));
 
     var url = "http://managr-server.herokuapp.com/invitation";
-    /*var accDetails = JsonEncoder().convert({"email": emailController.text});
+    /*var accDetails = JsonEncoder().convert({"event_id": ,"email": emailController.text});
     http.Response resp = await http.post(url,
         headers: {
           'Content-Type': 'application/json',

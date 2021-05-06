@@ -20,13 +20,13 @@ class _CreateEventState extends State<CreateEvent> {
   ValueNotifier<int> roomIndex = new ValueNotifier(-1);
   ValueNotifier<String> chosenRoom = new ValueNotifier("");
   TextEditingController attendeeCountController = new TextEditingController();
-  TextEditingController eventDescriptionController = new TextEditingController();
+  TextEditingController eventDescriptionController =
+      new TextEditingController();
   TextEditingController eventTitleController = new TextEditingController();
   SharedPreferences prefs;
   String dateString;
   var chosenRoomCapacity = 0;
   var chosenRoomID = 0;
-
 
   Future<http.Response> getAvailableDays() async {
     var url = "http://managr-server.herokuapp.com/daysAvailability";
@@ -39,7 +39,8 @@ class _CreateEventState extends State<CreateEvent> {
     if (chosenDate.value == "") {
       return null;
     } else {
-      var url = "http://managr-server.herokuapp.com/roomsAvailability?date='${chosenDate.value}'";
+      var url =
+          "http://managr-server.herokuapp.com/roomsAvailability?date='${chosenDate.value}'";
       print(url);
       http.Response resp = await http.get(url);
       print("resp.body for available rooms is " + resp.body);
@@ -49,25 +50,21 @@ class _CreateEventState extends State<CreateEvent> {
 
   createEvent() async {
     var url = "http://managr-server.herokuapp.com/event";
-    var eventDetails = JsonEncoder().convert(
-      {
-        "host_id": prefs.getInt('userID'),
-        "date": dateString,
-        "room_id": chosenRoomID,
-        "event_title": eventTitleController.text,
-        "details": eventDescriptionController.text,
-      }
-    );
+    var eventDetails = JsonEncoder().convert({
+      "host_id": prefs.getInt('userID'),
+      "date": dateString,
+      "room_id": chosenRoomID,
+      "event_title": eventTitleController.text,
+      "details": eventDescriptionController.text,
+    });
     http.Response resp;
     try {
-      resp = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: eventDetails
-      );
-    } catch(e) {
+      resp = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: eventDetails);
+    } catch (e) {
       print("error: " + e.toString());
     }
 
@@ -109,24 +106,28 @@ class _CreateEventState extends State<CreateEvent> {
             margin: EdgeInsets.only(top: 40),
             child: Column(
               children: [
-                Text("Choose a date...", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                Text(
+                  "Choose a date...",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
                 FutureBuilder(
                   future: getAvailableDays(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      var availableDays = jsonDecode(snapshot.data.body)["days"];
+                      var availableDays =
+                          jsonDecode(snapshot.data.body)["days"];
                       print("available days are " + availableDays.toString());
 
                       return Container(
                         width: screenWidth / 1.1,
                         height: screenHeight / 1.2,
                         child: GridView.builder(
-                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200,
-                            childAspectRatio: 3 / 2,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 20
-                          ),
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 200,
+                                  childAspectRatio: 3 / 2,
+                                  crossAxisSpacing: 20,
+                                  mainAxisSpacing: 20),
                           itemCount: availableDays.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
@@ -137,7 +138,8 @@ class _CreateEventState extends State<CreateEvent> {
                                   dateString = "";
                                 } else {
                                   dateIndex.value = index;
-                                  chosenDate.value = availableDays[index].toString();
+                                  chosenDate.value =
+                                      availableDays[index].toString();
                                   dateString = availableDays[index].toString();
                                 }
                               },
@@ -145,12 +147,22 @@ class _CreateEventState extends State<CreateEvent> {
                                 valueListenable: dateIndex,
                                 builder: (context, value, child) {
                                   return Card(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                                    color: value == index ? Colors.blue[200]: Colors.deepOrange[200],
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
+                                    color: value == index
+                                        ? Colors.blue[200]
+                                        : Colors.deepOrange[200],
                                     child: Container(
                                       width: screenWidth / 2.5,
                                       height: screenHeight / 5,
-                                      child: Center(child: Text(availableDays[index], style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
+                                      child: Center(
+                                          child: Text(
+                                        availableDays[index],
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      )),
                                     ),
                                   );
                                 },
@@ -169,9 +181,11 @@ class _CreateEventState extends State<CreateEvent> {
                   },
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Text("Swipe right >>>", style: TextStyle(fontSize: 18),)
-                ),
+                    margin: EdgeInsets.only(top: 10),
+                    child: Text(
+                      "Swipe right >>>",
+                      style: TextStyle(fontSize: 18),
+                    )),
               ],
             ),
           ),
@@ -189,7 +203,9 @@ class _CreateEventState extends State<CreateEvent> {
             valueListenable: chosenDate,
             builder: (context, value, child) {
               if (value == "") {
-                return Center(child: Text("Please choose a date"),);
+                return Center(
+                  child: Text("Please choose a date"),
+                );
               } else {
                 return Container(
                   width: screenWidth,
@@ -197,7 +213,11 @@ class _CreateEventState extends State<CreateEvent> {
                   margin: EdgeInsets.only(top: 80),
                   child: Column(
                     children: [
-                      Text("Choose a location...", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                      Text(
+                        "Choose a location...",
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
                       Container(
                         width: screenWidth / 1.1,
                         height: screenHeight / 1.6,
@@ -205,7 +225,8 @@ class _CreateEventState extends State<CreateEvent> {
                           future: getAvailableRooms(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              var availableRooms = jsonDecode(snapshot.data.body);
+                              var availableRooms =
+                                  jsonDecode(snapshot.data.body);
                               return ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: availableRooms.length,
@@ -218,28 +239,43 @@ class _CreateEventState extends State<CreateEvent> {
                                         chosenRoomCapacity = 0;
                                       } else {
                                         roomIndex.value = index;
-                                        chosenRoom.value = availableRooms[index]['room'].toString();
-                                        chosenRoomCapacity = availableRooms[index]['capacity'];
-                                        chosenRoomID = availableRooms[index]['room_id'];
+                                        chosenRoom.value = availableRooms[index]
+                                                ['room']
+                                            .toString();
+                                        chosenRoomCapacity =
+                                            availableRooms[index]['capacity'];
+                                        chosenRoomID =
+                                            availableRooms[index]['room_id'];
                                       }
                                     },
                                     child: ValueListenableBuilder(
-                                      valueListenable: roomIndex,
-                                      builder: (context, value, child) {
-                                        var roomImageString = availableRooms[index]['room_id'].toString() + ".jpeg";
-                                        return Container(
-                                          margin: EdgeInsets.only(top: 30),
-                                          child: LocationCard(roomImageString, availableRooms[index]['room'].toString(), availableRooms[index]['capacity'], value == index ? Colors.blue[200] : Colors.deepOrange[200]),
-                                        );
-                                      }
-                                    ),
+                                        valueListenable: roomIndex,
+                                        builder: (context, value, child) {
+                                          var roomImageString =
+                                              availableRooms[index]['room_id']
+                                                      .toString() +
+                                                  ".jpeg";
+                                          return Container(
+                                            margin: EdgeInsets.only(top: 30),
+                                            child: LocationCard(
+                                                roomImageString,
+                                                availableRooms[index]['room']
+                                                    .toString(),
+                                                availableRooms[index]
+                                                    ['capacity'],
+                                                value == index
+                                                    ? Colors.blue[200]
+                                                    : Colors.deepOrange[200]),
+                                          );
+                                        }),
                                   );
                                 },
                               );
                             } else {
                               return Center(
                                 child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation(onboardingStart),
+                                  valueColor:
+                                      AlwaysStoppedAnimation(onboardingStart),
                                 ),
                               );
                             }
@@ -247,9 +283,11 @@ class _CreateEventState extends State<CreateEvent> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 70),
-                        child: Text("Swipe right >>>", style: TextStyle(fontSize: 18),)
-                      ),
+                          margin: EdgeInsets.only(top: 70),
+                          child: Text(
+                            "Swipe right >>>",
+                            style: TextStyle(fontSize: 18),
+                          )),
                     ],
                   ),
                 );
@@ -277,7 +315,8 @@ class _CreateEventState extends State<CreateEvent> {
                 var hostName = "Host: " + prefs.getString('name');
                 var date = "Date: " + dateString;
                 var location = "Location: " + value;
-                var capacity = "Max Hall Capacity: " + chosenRoomCapacity.toString();
+                var capacity =
+                    "Max Hall Capacity: " + chosenRoomCapacity.toString();
 
                 return SingleChildScrollView(
                   child: Container(
@@ -287,22 +326,38 @@ class _CreateEventState extends State<CreateEvent> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Event Details", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                        Text(
+                          "Event Details",
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 30),
-                          child: Text(hostName, style: TextStyle(fontSize: 22),),
+                          child: Text(
+                            hostName,
+                            style: TextStyle(fontSize: 22),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
-                          child: Text(date, style: TextStyle(fontSize: 22),),
+                          child: Text(
+                            date,
+                            style: TextStyle(fontSize: 22),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
-                          child: Text(location, style: TextStyle(fontSize: 22),),
+                          child: Text(
+                            location,
+                            style: TextStyle(fontSize: 22),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
-                          child: Text(capacity, style: TextStyle(fontSize: 22),),
+                          child: Text(
+                            capacity,
+                            style: TextStyle(fontSize: 22),
+                          ),
                         ),
                         Row(
                           children: [
@@ -310,17 +365,26 @@ class _CreateEventState extends State<CreateEvent> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(top: 20),
-                                  child: Text("Expected", style: TextStyle(fontSize: 22),),
+                                  child: Text(
+                                    "Expected",
+                                    style: TextStyle(fontSize: 22),
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Text("Attendee Count", style: TextStyle(fontSize: 22),),
+                                  child: Text(
+                                    "Attendee Count",
+                                    style: TextStyle(fontSize: 22),
+                                  ),
                                 ),
                               ],
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 10),
-                              child: Text(":", style: TextStyle(fontSize: 22),),
+                              child: Text(
+                                ":",
+                                style: TextStyle(fontSize: 22),
+                              ),
                             ),
                             Container(
                               width: screenWidth / 6,
@@ -330,37 +394,39 @@ class _CreateEventState extends State<CreateEvent> {
                                 controller: attendeeCountController,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: "Count"
-                                ),
+                                    border: OutlineInputBorder(),
+                                    labelText: "Count"),
                               ),
                             )
                           ],
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: Text("Event Title:", style: TextStyle(fontSize: 22),),
+                        Row(children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Text(
+                              "Event Title:",
+                              style: TextStyle(fontSize: 22),
                             ),
-                            Container(
-                              width: screenWidth / 2,
-                              height: screenHeight / 15,
-                              margin: EdgeInsets.only(left: 15, top: 10),
-                              child: TextField(
-                                controller: eventTitleController,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
+                          ),
+                          Container(
+                            width: screenWidth / 2,
+                            height: screenHeight / 15,
+                            margin: EdgeInsets.only(left: 15, top: 10),
+                            child: TextField(
+                              controller: eventTitleController,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  labelText: "Event Title"
-                                ),
-                              ),
-                            )
-                          ]                          
-                        ),
+                                  labelText: "Event Title"),
+                            ),
+                          )
+                        ]),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
-                          child: Text("Event Description:", style: TextStyle(fontSize: 22),),
+                          child: Text(
+                            "Event Description:",
+                            style: TextStyle(fontSize: 22),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20, right: 20),
@@ -368,9 +434,9 @@ class _CreateEventState extends State<CreateEvent> {
                             maxLines: 8,
                             controller: eventDescriptionController,
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                              hintText: "Event Description"
-                            ),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                hintText: "Event Description"),
                           ),
                         ),
                         Padding(
@@ -378,65 +444,70 @@ class _CreateEventState extends State<CreateEvent> {
                           child: Center(
                             child: ButtonTheme(
                               buttonColor: buttonColor,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
                               minWidth: screenWidth / 5,
                               child: RaisedButton(
                                 elevation: 2,
                                 clipBehavior: Clip.antiAlias,
                                 child: Text("Create Event"),
                                 onPressed: () async {
-                                  var attendeeCount = attendeeCountController.text;
+                                  var attendeeCount =
+                                      attendeeCountController.text;
                                   var eventTitle = eventTitleController.text;
-                                  var eventDescription = eventDescriptionController.text;
+                                  var eventDescription =
+                                      eventDescriptionController.text;
 
                                   if (attendeeCount == "") {
                                     Fluttertoast.showToast(
-                                      msg: "Please enter the attendee count",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      backgroundColor: Colors.grey,
-                                      textColor: Colors.white,
-                                      fontSize: 18
-                                    );
-                                  } else if (int.parse(attendeeCount) > chosenRoomCapacity) {
+                                        msg: "Please enter the attendee count",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        backgroundColor: Colors.grey,
+                                        textColor: Colors.white,
+                                        fontSize: 18);
+                                  } else if (int.parse(attendeeCount) >
+                                      chosenRoomCapacity) {
                                     Fluttertoast.showToast(
-                                      msg: "Attendee count more than room capacity",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      backgroundColor: Colors.grey,
-                                      textColor: Colors.white,
-                                      fontSize: 18
-                                    );
+                                        msg:
+                                            "Attendee count more than room capacity",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        backgroundColor: Colors.grey,
+                                        textColor: Colors.white,
+                                        fontSize: 18);
                                   } else if (int.parse(attendeeCount) < 0) {
                                     Fluttertoast.showToast(
-                                      msg: "Invalid attendee count",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      backgroundColor: Colors.grey,
-                                      textColor: Colors.white,
-                                      fontSize: 18
-                                    );
+                                        msg: "Invalid attendee count",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        backgroundColor: Colors.grey,
+                                        textColor: Colors.white,
+                                        fontSize: 18);
                                   } else if (eventTitle == "") {
                                     Fluttertoast.showToast(
-                                      msg: "Please enter the event title",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      backgroundColor: Colors.grey,
-                                      textColor: Colors.white,
-                                      fontSize: 18
-                                    );
+                                        msg: "Please enter the event title",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        backgroundColor: Colors.grey,
+                                        textColor: Colors.white,
+                                        fontSize: 18);
                                   } else if (eventDescription == "") {
                                     Fluttertoast.showToast(
-                                      msg: "Please enter the event description",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      backgroundColor: Colors.grey,
-                                      textColor: Colors.white,
-                                      fontSize: 18
-                                    );
+                                        msg:
+                                            "Please enter the event description",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        backgroundColor: Colors.grey,
+                                        textColor: Colors.white,
+                                        fontSize: 18);
                                   } else {
                                     await createEvent();
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => EventCreationSuccess()));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                EventCreationSuccess()));
                                   }
                                 },
                               ),
@@ -449,7 +520,7 @@ class _CreateEventState extends State<CreateEvent> {
                 );
               }
             },
-          ),   
+          ),
         ),
       ],
     );
@@ -536,7 +607,7 @@ class _CreateEventState extends State<CreateEvent> {
     //               child: RaisedButton(
     //                 child: Text("Create Event"),
     //                 onPressed: () {
-                      
+
     //                 },
     //               ),
     //             ),
