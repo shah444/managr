@@ -352,9 +352,6 @@ class _ProfileState extends State<Profile> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Column(
-                                children: [Text("Member Since"), Text("2015")],
-                              ),
-                              Column(
                                 children: [
                                   Container(
                                     margin: EdgeInsets.only(right: 10),
@@ -374,9 +371,6 @@ class _ProfileState extends State<Profile> {
                                   )
                                 ],
                               ),
-                              Column(
-                                children: [Text("Events"), Text("100")],
-                              )
                             ],
                           ),
                         ),
@@ -441,18 +435,6 @@ class _ProfileState extends State<Profile> {
                                       style: TextStyle(fontSize: 25),
                                     );
                                   }),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Row(
-                          children: [
-                            Text("Events:", style: TextStyle(fontSize: 18)),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text("100", style: TextStyle(fontSize: 18)),
                             )
                           ],
                         ),
